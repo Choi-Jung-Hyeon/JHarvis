@@ -44,9 +44,10 @@
 
 ## 개인 Claude Code 설정 (전역)
 
-`claude/user/`에 정리(공개 가능한 것만). 핵심:
+[claude/user/](../claude/user/README.md)에 실제 값과 새 PC에서 만드는 순서를 정리했다(공개 가능한 것만). 핵심:
 
-- 출력 스타일은 간결하게(Concise).
-- 코드 줄이기 플러그인(ponytail)은 전역으로 켠다: "라이브러리 대신 네이티브 한 줄".
-- 브라우저 확인은 Playwright 플러그인(필요할 때만 불러와 평소 토큰 부담 없음).
+- 모델은 `opus`, Opus 5.5 노력 수준 `medium`, 생각 켜기(`alwaysThinkingEnabled`), 자동 압축 켜기.
+- 플러그인 3개: ponytail 5.3.2(코드 줄이기, 상태 표시줄), playwright(브라우저 확인, 필요할 때만 불러와 평소 토큰 부담 없음), vercel 0.50.0.
+- 출력 스타일은 따로 지정하지 않는다(기본). 커스텀 명령도 두지 않고 내장 명령과 플러그인 명령을 쓴다.
+- 허용 권한은 `gh api`, `git stash`, `git checkout`, `git push`만. main 보호는 Rulesets가 맡는다.
 - 위험한 권한 건너뛰기(skip permissions)는 쓰지 않는다.
