@@ -1,0 +1,30 @@
+# 리뷰 큐를 막지 않게 생태계별로 월 1회, PR 1개로 묶는다. 보안 업데이트는 묶이지 않고 바로 올라온다.
+# 바꿀 값: directory. 막아야 하는 major 판은 ignore에 넣고 해제 조건을 주석으로 적는다.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "monthly"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      web-all:
+        applies-to: version-updates
+        patterns:
+          - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      github-actions-all:
+        applies-to: version-updates
+        patterns:
+          - "*"

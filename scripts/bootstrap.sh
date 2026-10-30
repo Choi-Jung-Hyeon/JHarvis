@@ -37,13 +37,30 @@ if [ "$UI" = 1 ]; then
     copy_skill frontend-design
   else
     for d in "$PB"/claude/skills/*/; do copy_skill "$(basename "$d")"; done
-    put claude/skills/README.md .claude/skills/README.md
   fi
+  put claude/skills/README.md .claude/skills/README.md
 fi
 
-if [ "$HACK" = 0 ]; then
+# 해커톤은 CI 하나만, 기본은 전체. 각 워크플로 맨 위 env에서 폴더 이름을 맞춘다
+if [ "$HACK" = 1 ]; then
+  if [ "$UI" = 1 ]; then put templates/github/workflows/web-ci.yml .github/workflows/web-ci.yml
+  else put templates/github/workflows/python-ci.yml .github/workflows/python-ci.yml; fi
+else
+  [ "$UI" = 1 ] && put templates/github/workflows/web-ci.yml .github/workflows/web-ci.yml
+  put templates/github/workflows/python-ci.yml .github/workflows/python-ci.yml
+  put templates/github/workflows/free-tier-watch.yml .github/workflows/free-tier-watch.yml
+  put templates/github/scripts/free_tier_watch.py .github/scripts/free_tier_watch.py
+  put templates/github/scripts/test_free_tier_watch.py .github/scripts/test_free_tier_watch.py
+  put templates/github/scripts/budget_usage.sql .github/scripts/budget_usage.sql
+  put templates/github/dependabot.yml .github/dependabot.yml
   put templates/free-tier-budget.md docs/ops/free-tier-budget.md
   put templates/security-audit.md docs/security/audit-template.md
+  for f in metric-choice usability-test-plan persona-walkthrough source-display problem-feature-map; do
+    put "templates/research/$f.md" "docs/research/$f.md"
+  done
+  if [ "$UI" = 1 ]; then
+    for f in copy-rules.mjs copy-rules.test.mjs copy-glossary.mjs; do put "templates/code/$f" "lib/$f"; done
+  fi
 fi
 
 grep -qxF ".env" .gitignore 2>/dev/null || { printf '.env\n.env.*\n!.env.example\n' >> .gitignore; echo "추가 → .gitignore(.env)"; }

@@ -31,7 +31,11 @@ bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 | [tools/tool-radar.md](tools/tool-radar.md) | 도구, 스킬, 플러그인 판정표(채택, 아이디어만, 기각과 이유) | 새 도구를 볼 때 |
 | [tools/scrap-review.md](tools/scrap-review.md) | 스크랩을 선검토하고 후적용하는 절차 | 스크랩이 쌓였을 때 |
 | [templates/](templates/) | AGENTS.md, DESIGN.md, 프롬프트, 인수인계, 회의록, 보안 점검, 무료 예산표 | 복사해서 쓸 때 |
-| [claude/](claude/) | Claude Code 설정, 훅, 검토한 스킬(SHA 고정) | bootstrap이 복사 |
+| [templates/github/](templates/github/) | CI, 무료 한도 감시, Dependabot, PR과 이슈 양식 | bootstrap이 복사 |
+| [templates/research/](templates/research/) | 지표 근거, 사용성 테스트, AI 페르소나 워크스루, 출처 표시, 문제와 기능 대응표 양식 | 연구, 평가를 할 때 |
+| [templates/code/](templates/code/README.md) | 금지 표현 검사, 쉬운 말 사전 | 화면 문구가 있을 때 |
+| [claude/](claude/) | Claude Code 프로젝트 설정, 훅, [검토한 스킬(SHA 고정)](claude/skills/README.md) | bootstrap이 복사 |
+| [claude/user/](claude/user/README.md) | 개인 전역 설정, 플러그인, 새 PC에서 만드는 순서 | PC를 새로 맞출 때 |
 | [cases/take-a-look.md](cases/take-a-look.md) | 사례: 무엇을 했고 어떤 사고에서 어떤 규칙이 나왔나 | 근거가 필요할 때 |
 
 ## 다섯 줄 요약
@@ -49,3 +53,11 @@ bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 - 개인정보, 비밀키, 팀원 평가, 실제 계좌나 수치는 올리지 않는다(공개 레포).
 
 라이선스: 이 레포의 글과 스크립트는 MIT. `claude/skills/` 안의 스킬은 각 폴더의 원본 라이선스를 따른다.
+
+## 다른 프로젝트에서
+
+**(a) 새 레포에 bootstrap**: 이 레포를 `~/JHarvis`에 받고, 새 프로젝트 루트에서 `bash ~/JHarvis/scripts/bootstrap.sh`를 돌립니다. 짧은 프로젝트는 `--hackathon`, 화면이 없으면 `--no-ui`. 이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둡니다.
+
+**(b) 채팅 Claude 프로젝트 첫 메시지**: 프로젝트를 새로 만들고 요강과 평가표를 올린 뒤 [templates/kickoff-chat.md](templates/kickoff-chat.md)의 빈칸을 채워 보냅니다.
+
+**(c) 배운 것을 이 레포로 되돌리기**: 프로젝트가 끝나면(해커톤은 끝난 날) 브랜치를 만들어 사례는 `cases/<프로젝트>.md`, 판단 패턴은 [tacit-knowledge.md](tacit-knowledge.md), 규칙은 해당 `principles/`, 도구 판정은 [tools/tool-radar.md](tools/tool-radar.md)에 넣고 PR을 올립니다. 공개 레포이므로 위 갱신 규칙의 금지 항목을 확인한 뒤 머지합니다.

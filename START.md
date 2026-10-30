@@ -21,7 +21,10 @@ bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-n
 - `.claude/settings.json`, `.claude/hooks/guard.py`(비밀키 파일 수정 차단, 커밋 전 빠른 검사)
 - `.claude/skills/`(검토하고 SHA를 고정한 디자인 스킬, 화면이 있을 때만)
 - `.github/pull_request_template.md`, 이슈 양식
-- `docs/ops/free-tier-budget.md`, `docs/security/audit-template.md`(해커톤 모드에서는 생략)
+- `.github/workflows/`: 기본은 python-ci, web-ci, free-tier-watch(+ 스크립트, Dependabot), 해커톤은 CI 하나(화면이 있으면 web-ci). 맨 위 `env`에서 폴더 이름과 기준을 맞춘다
+- `docs/ops/free-tier-budget.md`, `docs/security/audit-template.md`, `docs/research/` 양식 5종, `lib/copy-*.mjs` 문구 검사(해커톤 모드에서는 생략)
+
+옵션: `--hackathon` 짧은 프로젝트, `--no-ui` 화면이 없는 프로젝트(DESIGN.md, 스킬, web-ci, 문구 검사 생략).
 
 ## 2. 채팅 Claude 프로젝트 만들기
 
