@@ -16,6 +16,7 @@ grant all on public.foo to service_role;
 
 - 보안 헤더와 콘텐츠 보안 정책(CSP). 개발용 화면은 운영에서 404.
 - 서드파티 GitHub Action은 SHA로 고정. 워크플로에 `permissions: contents: read` 기본.
+- 공개 레포 커밋은 GitHub noreply 이메일로. 전역 git 이메일이 개인 주소면 레포마다 바꾼다(한 번 push하면 기록에 남는다).
 - 실제 개인 데이터(계좌, 신분증, 개인 화면 캡처)는 레포, PR, 이슈, 스크린샷 어디에도 올리지 않는다. 시험 이미지는 가짜 수치로 새로 만든다.
 - 가입을 받으면 개인정보 처리방침 페이지와 계정 삭제 기능.
 
@@ -23,7 +24,7 @@ grant all on public.foo to service_role;
 
 [templates/security-audit.md](../templates/security-audit.md) 형식으로, 최근 실제 사고의 공통점을 기준으로 본다.
 
-1. 로그인 없이 쓰는 기능, 내부용 기능이 뚫리는가: 익명, 다른 사용자 토큰으로 실제 시험(`BEGIN … ROLLBACK` 안에서 역할 바꾸기).
+1. 로그인 없이 쓰는 기능, 내부용 기능이 뚫리는가: 익명, 다른 사용자 토큰으로 실제 시험(`BEGIN … ROLLBACK` 안에서 역할 바꾸기). 본인 토큰으로는 보이는지 대조군을 같이 돌린다. 개발용 화면은 내용뿐 아니라 상태 코드까지 404인지 본다.
 2. 늦게 알게 되는가: 주간 감시가 RLS 꺼짐, 가입 급증을 잡는가.
 3. 의존성: `pnpm audit --prod`, `pip-audit`. 프레임워크 보안 권고는 공개 뒤 며칠 안에 반영.
 

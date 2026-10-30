@@ -14,6 +14,7 @@
 - `docs/ops/free-tier-budget.md`: 자원 / 한도 / 현재 / 하루 증가 / 마감일 예상 / 대책([templates/free-tier-budget.md](../templates/free-tier-budget.md)).
 - 주간 감시 워크플로: DB와 저장 공간 사용량, API 남은 횟수, 마지막 게시일, RLS가 꺼진 테이블, 가입 급증을 확인하고 기준을 넘으면 이슈를 연다. 예약 워크플로가 60일 비활성으로 꺼지지 않게 다시 켠다.
 - 대량 적재 전에는 예산표의 남은 한도를 먼저 본다.
+- 감시 워크플로 실물: [templates/github/workflows/free-tier-watch.yml](../templates/github/workflows/free-tier-watch.yml). 측정 실패도 경고로 남기고, 설정이 바뀌었으면 자동으로 되돌리지 않고 알린다.
 
 ## 자주 쓴 절약 방법
 
