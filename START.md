@@ -11,8 +11,8 @@
 ## 1. 레포에 넣기
 
 ```bash
-bash ~/JHarvis/scripts/bootstrap.sh            # 기본
-bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 짧은 프로젝트
+bash ~/jharvis/scripts/bootstrap.sh            # 기본
+bash ~/jharvis/scripts/bootstrap.sh --hackathon # 짧은 프로젝트
 ```
 
 bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둔다):
@@ -70,7 +70,7 @@ bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-n
 ## 공모전, 해커톤 프로젝트에서 첫 메시지 예
 
 ```
-~/JHarvis를 쓰는 프로젝트입니다. START.md의 해커톤 모드로 진행합니다.
+~/jharvis를 쓰는 프로젝트입니다. START.md의 해커톤 모드로 진행합니다.
 공모 요강과 평가표는 프로젝트 파일에 있습니다. 먼저 평가표를 항목별 '보여 줄 것'으로 바꾸고,
 데모 시나리오 초안과 Claude Code 첫 프롬프트를 주세요.
 ```

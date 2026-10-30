@@ -1,17 +1,17 @@
 # JHarvis
 
 AI 두 개(채팅 Claude와 Claude Code)로 프로젝트를 빠르게, 무료로, 근거 있게 끝내는 개인 작업 방식 모음입니다.
-2026년 졸업작품 Take a Look(4인 팀, 5~10월, 병합 PR 369개)에서 실제로 써 보고 남긴 규칙, 템플릿, 도구 판정만 담았습니다.
+2026년 졸업작품 Take a Look(4인 팀, 5~10월, 병합 PR 369개)과 PB 어드바이저 대시보드(증권사 대학생 멤버십 프로젝트)에서 실제로 써 보고 남긴 규칙, 템플릿, 도구 판정만 담았습니다.
 
 새 프로젝트를 시작할 때마다 인수인계를 처음부터 다시 쓰지 않으려고 만들었습니다. **이 레포 하나를 넣으면 AI가 같은 방식으로 일합니다.**
 
 ## 5분 시작
 
 ```bash
-git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/JHarvis
+git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/jharvis
 cd <새 프로젝트>
-bash ~/JHarvis/scripts/bootstrap.sh            # 일반 프로젝트
-bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧은 프로젝트
+bash ~/jharvis/scripts/bootstrap.sh            # 일반 프로젝트
+bash ~/jharvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧은 프로젝트
 ```
 
 그다음 두 가지만 하면 됩니다.
@@ -34,9 +34,10 @@ bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 | [templates/github/](templates/github/) | CI, 무료 한도 감시, Dependabot, PR과 이슈 양식 | bootstrap이 복사 |
 | [templates/research/](templates/research/) | 지표 근거, 사용성 테스트, AI 페르소나 워크스루, 출처 표시, 문제와 기능 대응표 양식 | 연구, 평가를 할 때 |
 | [templates/code/](templates/code/README.md) | 금지 표현 검사, 쉬운 말 사전 | 화면 문구가 있을 때 |
+| [templates/eval/](templates/eval/labeling-guide.md) | LLM 평가: 라벨링 가이드, 정답 사례, 캘리브레이션, 재현성 범위, 증거 묶음 | LLM 출력을 평가할 때 |
 | [claude/](claude/) | Claude Code 프로젝트 설정, 훅, [검토한 스킬(SHA 고정)](claude/skills/README.md) | bootstrap이 복사 |
 | [claude/user/](claude/user/README.md) | 개인 전역 설정, 플러그인, 새 PC에서 만드는 순서 | PC를 새로 맞출 때 |
-| [cases/take-a-look.md](cases/take-a-look.md) | 사례: 무엇을 했고 어떤 사고에서 어떤 규칙이 나왔나 | 근거가 필요할 때 |
+| [cases/take-a-look.md](cases/take-a-look.md), [cases/pb-advisor.md](cases/pb-advisor.md) | 사례: 무엇을 했고 어떤 사고에서 어떤 규칙이 나왔나 | 근거가 필요할 때 |
 
 ## 다섯 줄 요약
 
@@ -56,7 +57,7 @@ bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 
 ## 다른 프로젝트에서
 
-**(a) 새 레포에 bootstrap**: 이 레포를 `~/JHarvis`에 받고, 새 프로젝트 루트에서 `bash ~/JHarvis/scripts/bootstrap.sh`를 돌립니다. 짧은 프로젝트는 `--hackathon`, 화면이 없으면 `--no-ui`. 이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둡니다.
+**(a) 새 레포에 bootstrap**: 이 레포를 `~/jharvis`에 받고, 새 프로젝트 루트에서 `bash ~/jharvis/scripts/bootstrap.sh`를 돌립니다. 짧은 프로젝트는 `--hackathon`, 화면이 없으면 `--no-ui`. 이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둡니다.
 
 **(b) 채팅 Claude 프로젝트 첫 메시지**: 프로젝트를 새로 만들고 요강과 평가표를 올린 뒤 [templates/kickoff-chat.md](templates/kickoff-chat.md)의 빈칸을 채워 보냅니다.
 

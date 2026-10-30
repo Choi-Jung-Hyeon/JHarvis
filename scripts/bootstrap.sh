@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # JHarvis 템플릿을 현재 폴더(새 프로젝트 루트)에 넣는다.
 # 이미 있는 파일은 덮어쓰지 않고 <파일>.playbook-new 로 옆에 둔다.
-# 사용: bash ~/JHarvis/scripts/bootstrap.sh [--hackathon] [--no-ui]
+# 사용: bash ~/jharvis/scripts/bootstrap.sh [--hackathon] [--no-ui]
 set -euo pipefail
 PB="$(cd "$(dirname "$0")/.." && pwd)"
 HACK=0; UI=1

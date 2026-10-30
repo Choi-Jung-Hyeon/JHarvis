@@ -4,6 +4,6 @@
 
 - 화면 규칙: `DESIGN.md`
 - 블록 사이 계약: `schema/`(단독 수정 금지)
-- 작업 방식 전반: `~/JHarvis`(README, tacit-knowledge.md, principles/)
+- 작업 방식 전반: `~/jharvis`(README, tacit-knowledge.md, principles/)
 
 규칙을 두 군데에서 관리하지 않기 위해 본문은 `AGENTS.md` 한 곳에만 둡니다.

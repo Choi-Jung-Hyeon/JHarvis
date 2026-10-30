@@ -25,6 +25,14 @@
 - 형식: 타임라인 표 + 안건별 핵심, 논의, 아이디어 후보 + Done / Todo / Discuss + 실시간 메모([templates/meeting-notes.md](../templates/meeting-notes.md)).
 - 의견이 안 나오면 A/B/C 시안 + "몇 시까지 의견 없으면 A로" 같은 침묵 방지 문장.
 
+## 팀 경계
+
+- 남의 담당 파일은 읽기만 하고 담당자에게 보고한다. 담당 표를 AGENTS.md에 둔다.
+- 공지는 결정이 모인 뒤 한 번에 묶어서 보낸다.
+- 피드백은 전체 공통과 우리 대상으로 나눠 반영 여부를 정한다.
+- 외부 문서 도구(노션 등)에 AI로 쓴 뒤에는 다시 읽어 확인한다.
+- 레포 첫날 설정은 [repo-day-one.md](../templates/repo-day-one.md), 레포 합치기는 [repo-subtree.md](../templates/repo-subtree.md).
+
 ## 팀에 보내는 글
 
 - 짧게, 사실과 다음 행동만. 팀방이 반말이면 문구도 반말.

@@ -7,9 +7,9 @@ Goal
 이 저장소를 JHarvis 방식으로 시작할 수 있게 기본 틀을 갖춘다.
 
 Context
-- ~/JHarvis를 클론해 두었고 scripts/bootstrap.sh로 AGENTS.md, CLAUDE.md, .claude/, .github/ 템플릿을 넣었다.
+- ~/jharvis를 클론해 두었고 scripts/bootstrap.sh로 AGENTS.md, CLAUDE.md, .claude/, .github/ 템플릿을 넣었다.
 - 프로젝트: <한 줄>, 마감 <날짜>, 팀 <구성>, 스택 <예정 스택 또는 미정>.
-- 규칙 원본은 AGENTS.md 하나다. ~/JHarvis/principles/와 tacit-knowledge.md를 읽고 판단 기준으로 삼는다.
+- 규칙 원본은 AGENTS.md 하나다. ~/jharvis/principles/와 tacit-knowledge.md를 읽고 판단 기준으로 삼는다.
 
 Constraints
 - 하위 에이전트를 쓰지 않고, 끝나면 최종 보고를 한 번만 한다.
