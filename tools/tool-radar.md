@@ -155,3 +155,36 @@
 | PHP, GitLab, NGINX, Node.js Brotli 패치 | 확인만: 스택에 없거나 플랫폼이 자동 적용. 로컬 개발 PC만 직접 올린다 | 10-26 |
 | LiteLLM 1.107.0 변조 | 확인만: 요구 파일과 로컬 환경 어디에도 없음 | 10-26 |
 | Tailworm(Tailscale SSH 결함) | 확인만: 스택에 없음. 개인 PC에서 쓴다면 SSH 규칙을 기기 쌍 단위로 좁힌다 | 10-27 |
+
+## 스크랩 판정 기록
+
+위 표는 분야별 현재 판정, 여기는 날짜별 기록입니다. 새 스크랩은 맨 아래에 날짜 표를 덧붙입니다.
+
+### 2026-10-30
+
+사실은 GitHub API와 원본 README, 라이선스 원문으로 확인했습니다(별 수는 판단 근거로 쓰지 않습니다).
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| [Harness²](https://github.com/google-research/harness2) (Apache-2.0) | 기존 판정 유지(기각), 생각만 | 후보 하네스를 여러 번 돌려 비교해 토큰이 몇 배로 들고, 실제 실행에 Vertex AI 모델과 벤치 도구가 필요하다. 지원 실행기는 OpenCode, Codex뿐이다(1, 2, 3). 가져올 생각: 효과가 보인 수정과 근거 있는 교훈만 남긴다. 이미 "사고 → 규칙 한 줄 + 번호"로 하고 있다 |
+| [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/) (공식 글, 10-15) | **규칙 채택** | 위험도별 사람 승인, 에이전트 승인 불인정, 리뷰 3회 제한, 지적은 고치거나 이유 남기기, 되돌리는 법을 [AGENTS 템플릿](../templates/AGENTS.md)과 [PR 양식](../templates/github/pull_request_template.md)에 반영. 인원과 도구는 소규모에 맞게 줄였다. 수치는 Claude Code 팀 사례로만 인용한다 |
+| Code Review for Claude Code(관리형, Team, Enterprise) | 기각 | 플랜과 별도로 사용량 크레딧 과금(1). 대신 내장 `/code-review`는 모든 플랜에서 쓰고 세션 사용량으로 계산된다. 기존 판정 유지 |
+| Coolify (Apache-2.0) | 기각 | 내 서버가 필요하다(1, 2). 무료 호스팅으로 충분 |
+| OpenHands (MIT) | 기각 | 모델 키가 따로 들고 Claude Code와 겹친다(1, 6) |
+| Maxun (AGPL-3.0) | 기각 | 셀프 호스팅 스크래퍼(2, 7) |
+| Open WebUI (자체 라이선스) | 기각 | 표준 오픈소스 라이선스가 아니고, 모델 서버나 키가 필요하다(2, 4, 6) |
+| Browser Use (MIT) | 기각 | LLM 키가 필요하고 Playwright와 겹친다(1, 6) |
+| Langflow (MIT), Dify (Apache-2.0 변형) | 기각 | 서버 운영, 모델 키가 필요하다. Dify는 멀티테넌트와 로고 제한이 붙는다(1, 2, 4, 6) |
+| Supabase (Apache-2.0) | 호스팅 무료 플랜만 사용 | 셀프 호스팅은 기각(2) |
+| Stirling PDF | 기존 판정 유지 | 필요할 때만, 평소는 BentoPDF. 일부 폴더는 별도 라이선스이므로 쓸 때 확인 |
+| Crawl4AI (Apache-2.0) | 필요할 때만 | 약관을 확인한 공개 페이지를 일회성으로 정리할 때 로컬 실행 후보. 상시 수집과 클라우드 기능은 쓰지 않는다. 실행해 보지는 않았다 |
+| Fincept Terminal (AGPL-3.0) | 기각 | LLM과 데이터 비용이 별도다(1, 4, 6) |
+| Open-Gen-AI | 기각 | 스크랩 이름과 같은 레포를 찾지 못했다. 가장 가까운 [Open-Generative-AI](https://github.com/Anil-matcha/Open-Generative-AI)는 MuAPI 연동과 "콘텐츠 필터 없음"을 내세운다(1, 5, 7) |
+| Vibe Trading (MIT) | 기존 판정 유지(기각) | "자동 실행 금지" 원칙과 반대. "돈을 찍어낸다"는 문구도 근거가 없다(7) |
+| Claude Ads (MIT) | 기각 | 광고 계정 감사 스킬, 쓸 곳이 없다(6) |
+| HyperFrames (Apache-2.0) | 기존 판정 유지 | 발표 영상이 필요할 때만 |
+| Camofox Browser (MIT) | 기각 | 봇 탐지 우회가 목적이라 약관 위반으로 이어진다(7) |
+| Oh-My-Hermes (MIT), Hermes Agent (MIT) | 기각, 생각 하나 채택 | 하네스 교체, 전문 스킬 100개 이상, 병렬 실행, 여러 모델 키(1, 2, 3, 6). 가져온 생각: 상태를 "계획 / 구현 보고 / 검증됨"으로 나눠 보고한다([prompt-claude-code.md](../templates/prompt-claude-code.md)) |
+| "AI 에이전트 툴 4가지" 영상 | 기존 판정 유지(추정) | 이름이 없어 설명으로 추정했다: Graft(Trail-code), Agency Agents, Codebase Memory MCP, OpenMontage. 모두 기각. 영상에서 다른 이름이 나오면 다시 판정한다 |
+| 다크패턴 9가지 | **채택** | 9개 목록은 스크랩에 없어 [deceptive.design](https://www.deceptive.design/types) 분류로 [DESIGN 템플릿](../templates/DESIGN.md)에 넣었다. 국내 규제: 전자상거래법 13개 유형(2025-02-14 시행), 금융 다크패턴 가이드라인(2026-04 시행)이 있다는 것은 금융위 자료로 확인했고, 13개 목록 원문은 확인하지 못했다 |
+
