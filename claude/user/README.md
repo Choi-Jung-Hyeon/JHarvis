@@ -40,15 +40,15 @@
 2. 이 레포를 받습니다.
 
    ```bash
-   git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/JHarvis
+   git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/jharvis
    ```
 
 3. 설정을 복사합니다. 이미 있는 설정이 있으면 덮어쓰지 말고 키를 합칩니다.
 
    ```bash
    mkdir -p ~/.claude
-   cp ~/JHarvis/claude/user/CLAUDE.md ~/.claude/CLAUDE.md
-   cp ~/JHarvis/claude/user/settings.example.json ~/.claude/settings.json
+   cp ~/jharvis/claude/user/CLAUDE.md ~/.claude/CLAUDE.md
+   cp ~/jharvis/claude/user/settings.example.json ~/.claude/settings.json
    ```
 
 4. Claude Code를 켜면 `extraKnownMarketplaces`와 `enabledPlugins`를 보고 설치를 묻습니다. 묻지 않으면 직접 설치합니다.

@@ -8,10 +8,10 @@ AI 두 개(채팅 Claude와 Claude Code)로 프로젝트를 빠르게, 무료로
 ## 5분 시작
 
 ```bash
-git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/JHarvis
+git clone https://github.com/Choi-Jung-Hyeon/JHarvis ~/jharvis
 cd <새 프로젝트>
-bash ~/JHarvis/scripts/bootstrap.sh            # 일반 프로젝트
-bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧은 프로젝트
+bash ~/jharvis/scripts/bootstrap.sh            # 일반 프로젝트
+bash ~/jharvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧은 프로젝트
 ```
 
 그다음 두 가지만 하면 됩니다.
@@ -57,7 +57,7 @@ bash ~/JHarvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 
 ## 다른 프로젝트에서
 
-**(a) 새 레포에 bootstrap**: 이 레포를 `~/JHarvis`에 받고, 새 프로젝트 루트에서 `bash ~/JHarvis/scripts/bootstrap.sh`를 돌립니다. 짧은 프로젝트는 `--hackathon`, 화면이 없으면 `--no-ui`. 이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둡니다.
+**(a) 새 레포에 bootstrap**: 이 레포를 `~/jharvis`에 받고, 새 프로젝트 루트에서 `bash ~/jharvis/scripts/bootstrap.sh`를 돌립니다. 짧은 프로젝트는 `--hackathon`, 화면이 없으면 `--no-ui`. 이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둡니다.
 
 **(b) 채팅 Claude 프로젝트 첫 메시지**: 프로젝트를 새로 만들고 요강과 평가표를 올린 뒤 [templates/kickoff-chat.md](templates/kickoff-chat.md)의 빈칸을 채워 보냅니다.
 
