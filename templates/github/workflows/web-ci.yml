@@ -25,6 +25,9 @@ env:
 jobs:
   changes:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read  # paths-filter가 PR 변경 파일을 API로 읽는다
     outputs:
       web: ${{ steps.filter.outputs.web }}
     steps:

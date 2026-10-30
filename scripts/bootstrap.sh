@@ -66,8 +66,11 @@ fi
 # .gitignore는 덮어쓰지 않고 없는 줄만 덧붙인다. 파일 끝에 줄바꿈이 없으면 첫 줄이 붙어 버리므로 먼저 넣는다
 touch .gitignore
 if [ -s .gitignore ] && [ -n "$(tail -c1 .gitignore)" ]; then echo >> .gitignore; fi
+added=0
 while IFS= read -r line; do
-  grep -qxF -- "$line" .gitignore || { echo "$line" >> .gitignore; echo "추가 → .gitignore($line)"; }
+  # !줄은 앞선 무시 규칙보다 뒤에 있어야 하므로, 줄을 더했으면 이미 있어도 다시 쓴다
+  if grep -qxF -- "$line" .gitignore && { [ "$added" = 0 ] || [ "${line#!}" = "$line" ]; }; then continue; fi
+  echo "$line" >> .gitignore; echo "추가 → .gitignore($line)"; added=1
 done < "$PB/.gitignore"
 echo
 echo "다음: AGENTS.md의 <빈칸>을 채우고, templates/kickoff-claude-code.md를 Claude Code 첫 프롬프트로 보내세요."

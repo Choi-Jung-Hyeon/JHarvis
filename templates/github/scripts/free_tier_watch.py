@@ -41,7 +41,9 @@ def check(usage, remaining, today):
         if "last_published_as_of" in usage:  # 게시 작업이 없는 프로젝트는 RPC에서 이 값을 빼면 건너뛴다
             max_lag = int(setting("MAX_PUBLISH_LAG", "2"))
             lag = weekdays_between(date.fromisoformat(as_of), today) if as_of else None
-            if lag is None or lag > max_lag:
+            if lag is None:
+                alerts.append("게시 기록이 없음")
+            elif lag > max_lag:
                 alerts.append(f"게시가 {lag}영업일 밀림(마지막 {as_of})")
     daily_plan = int(setting("API_DAILY_PLAN", "0"))
     if daily_plan:
@@ -62,8 +64,11 @@ def security_check(usage):
     elif tables:
         alerts.append(f"RLS가 꺼진 public 테이블 {len(tables)}개: {', '.join(tables)}")
     limit = int(setting("SIGNUPS_7D_LIMIT", "50"))
-    if (usage.get("signups_7d") or 0) > limit:
-        alerts.append(f"최근 7일 가입 {usage['signups_7d']}건 > {limit}건")
+    signups = usage.get("signups_7d")
+    if signups is None:
+        alerts.append("가입 수 검사값이 없음(budget_usage.sql 적용 확인)")
+    elif signups > limit:
+        alerts.append(f"최근 7일 가입 {signups}건 > {limit}건")
     return alerts
 
 
@@ -109,12 +114,17 @@ def report(title, body):
 
 def main():
     today = datetime.now(timezone(timedelta(hours=int(setting("UTC_OFFSET_HOURS", "9"))))).date()
-    usage = fetch_usage()
+    try:
+        usage, usage_error = fetch_usage(), None
+    except Exception as exc:  # 측정 실패도 경고로 남긴다. RLS를 못 봤으니 보안 경고로 올린다
+        usage, usage_error = None, f"DB 측정 실패({type(exc).__name__})"
     try:
         remaining = api_remaining()
     except Exception:  # 측정 실패도 경고로 남긴다
         remaining = None
     alerts, security = check(usage, remaining, today), security_check(usage)
+    if usage_error:
+        security.append(usage_error)
 
     site_url, expected = None, setting("SITE_URL").rstrip("/")
     if expected and setting("AUTH_CONFIG_URL") and setting("SUPABASE_ACCESS_TOKEN"):
@@ -125,7 +135,7 @@ def main():
 
     measured = {"db_bytes": (usage or {}).get("db_bytes"), "storage_bytes": (usage or {}).get("storage_bytes"),
                 "api_remaining": remaining, "last_published_as_of": (usage or {}).get("last_published_as_of"),
-                "signups_7d": (usage or {}).get("signups_7d")}
+                "signups_7d": (usage or {}).get("signups_7d"), "site_url": site_url}
     print(json.dumps({"event": "free_tier_watch", **measured, "alerts": alerts + security}, ensure_ascii=False))
     if setting("DRY_RUN") == "true":  # 수동 시험: 이슈는 남기지 않고 실패 여부만 본다
         sys.exit(1 if security else 0)

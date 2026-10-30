@@ -21,8 +21,12 @@ export const TERM_INFO = {
 
 // 비교 기준이 있는 문장. 판정하는 말(싸다, 비싸다) 없이 높아요, 낮아요, 비슷해요까지만
 export function compareLine(value, base, baseName, unit, tolerance = 0.05) {
-  const word = Math.abs(value - base) <= Math.abs(base) * tolerance ? "와 비슷해요" : value > base ? "보다 높아요" : "보다 낮아요";
-  return `${baseName} 중간값 ${base.toFixed(1)}${unit}${word}.`;
+  const text = `${base.toFixed(1)}${unit}`;
+  const syllable = text.charCodeAt(text.length - 1) - 0xac00; // 한글이면 28로 나눈 나머지가 받침
+  const hasFinal = syllable >= 0 && syllable < 11172 ? syllable % 28 > 0 : /[013678]$/.test(text);
+  const similar = hasFinal ? "과 비슷해요" : "와 비슷해요";
+  const word = Math.abs(value - base) <= Math.abs(base) * tolerance ? similar : value > base ? "보다 높아요" : "보다 낮아요";
+  return `${baseName} 중간값 ${text}${word}.`;
 }
 
 // 확률 단정 대신 빈도 문장
