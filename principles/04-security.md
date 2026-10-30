@@ -3,6 +3,7 @@
 ## 처음부터 넣는 것
 
 - 비밀키 파일(`.env*`)은 `.gitignore` + 훅으로 AI 수정 차단. 템플릿 `.env.example`만 커밋.
+- `permissions.deny`의 `Read` 규칙은 Read 도구만 막는다. 셸로 읽는 것까지 완전히 막지는 못한다.
 - 쓰기 권한 키는 CI 비밀값(GitHub Actions secrets)에만. 브라우저에는 공개 키와 로그인 세션만.
 - DB 새 테이블은 같은 마이그레이션에서 RLS 켜기와 필요한 GRANT를 함께:
 

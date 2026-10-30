@@ -1,5 +1,11 @@
 {
   "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)"
+    ],
     "ask": [
       "Edit(/schema/**)",
       "Write(/schema/**)"

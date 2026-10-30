@@ -29,7 +29,9 @@
 | `modelSettings` | Opus 5 `high`, Opus 5.5 `medium` | 모델별 노력 수준 |
 | `alwaysThinkingEnabled` | `true` | 판단이 많은 작업이 대부분이라 |
 | `autoCompactEnabled` | `true` | 긴 작업이 끊기지 않게 |
-| `permissions.allow` | `gh api`, `git stash`, `git checkout`, `git push` | 자주 쓰는 명령만. main 보호는 GitHub Rulesets가 맡는다 |
+| `permissions.allow` | `git stash`, `git checkout` | 자주 쓰는 로컬 명령만 |
+| `permissions.ask` | `gh api`, `git push` | 밖으로 나가는 명령은 매번 묻는다 |
+| `permissions.deny` | `git push --force`, `git push -f` | 강제 push 금지. main 보호는 GitHub Rulesets가 함께 맡는다 |
 | 알림 | `iterm2` 채널, 입력 대기와 에이전트 알림 켬 | 터미널에 맞게 바꾼다 |
 
 쓰지 않는 것: 권한 건너뛰기(skip permissions), 상시 연결 MCP.

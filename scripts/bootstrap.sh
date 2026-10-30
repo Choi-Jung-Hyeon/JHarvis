@@ -63,6 +63,11 @@ else
   fi
 fi
 
-grep -qxF ".env" .gitignore 2>/dev/null || { printf '.env\n.env.*\n!.env.example\n' >> .gitignore; echo "추가 → .gitignore(.env)"; }
+# .gitignore는 덮어쓰지 않고 없는 줄만 덧붙인다. 파일 끝에 줄바꿈이 없으면 첫 줄이 붙어 버리므로 먼저 넣는다
+touch .gitignore
+if [ -s .gitignore ] && [ -n "$(tail -c1 .gitignore)" ]; then echo >> .gitignore; fi
+while IFS= read -r line; do
+  grep -qxF -- "$line" .gitignore || { echo "$line" >> .gitignore; echo "추가 → .gitignore($line)"; }
+done < "$PB/.gitignore"
 echo
 echo "다음: AGENTS.md의 <빈칸>을 채우고, templates/kickoff-claude-code.md를 Claude Code 첫 프롬프트로 보내세요."
