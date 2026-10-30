@@ -7,7 +7,6 @@ DB 값은 budget_usage.sql의 RPC가 준다. 다른 DB를 쓰면 fetch_usage만 
 
 import json
 import os
-import re
 import subprocess
 import sys
 from datetime import date, datetime, timedelta, timezone
@@ -91,8 +90,7 @@ def api_remaining():
 
 def current_site_url():
     """인증 Site URL(Management API). 되돌리지 않고 읽기만 한다."""
-    ref = re.match(r"https://([^.]+)\.", setting("SUPABASE_URL")).group(1)
-    request = Request(f"https://api.supabase.com/v1/projects/{ref}/config/auth",
+    request = Request(setting("AUTH_CONFIG_URL"),
                       headers={"Authorization": "Bearer " + setting("SUPABASE_ACCESS_TOKEN"),
                                "User-Agent": "free-tier-watch"})  # 기본 urllib UA는 Cloudflare가 막을 수 있다
     with urlopen(request, timeout=30) as response:
@@ -119,7 +117,7 @@ def main():
     alerts, security = check(usage, remaining, today), security_check(usage)
 
     site_url, expected = None, setting("SITE_URL").rstrip("/")
-    if expected and setting("SUPABASE_ACCESS_TOKEN"):
+    if expected and setting("AUTH_CONFIG_URL") and setting("SUPABASE_ACCESS_TOKEN"):
         try:
             site_url = current_site_url()
         except Exception as exc:  # 측정 실패도 경고로 남긴다
