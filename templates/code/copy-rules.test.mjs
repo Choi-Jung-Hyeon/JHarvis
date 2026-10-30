@@ -64,5 +64,8 @@ test("용어 사전의 모든 용어에 쉬운 이름, 정의, 읽는 법이 있
 test("사전 문장은 금지 표현에 걸리지 않고 비교 기준을 쓴다", () => {
   assert.equal(glossary.compareLine(27.9, 11.23, "시장", "배"), "시장 중간값 11.2배보다 높아요.");
   assert.equal(glossary.compareLine(11.5, 11.23, "시장", "배"), "시장 중간값 11.2배와 비슷해요.");
+  assert.equal(glossary.compareLine(1000, 1000, "시장", "원"), "시장 중간값 1000.0원과 비슷해요.");
+  assert.equal(glossary.compareLine(11.5, 11.23, "시장", ""), "시장 중간값 11.2와 비슷해요.");
+  assert.equal(glossary.compareLine(11, 11, "시장", ""), "시장 중간값 11.0과 비슷해요.");
   assert.equal(glossary.bandSentence(0.7), "과거 비슷한 경우, 10번 중 7번 이 범위였어요.");
 });

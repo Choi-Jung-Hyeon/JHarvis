@@ -1,4 +1,4 @@
-"""실행: python3 -m unittest .github/scripts/test_free_tier_watch.py (또는 이 폴더에서 python3 -m unittest)"""
+"""실행: python3 .github/scripts/test_free_tier_watch.py"""
 import os
 import sys
 import unittest
@@ -42,6 +42,17 @@ class Watch(unittest.TestCase):
     def test_rls_off_and_signups(self):
         self.assertEqual(len(w.security_check({**OK, "rls_disabled_tables": ["foo"], "signups_7d": 99})), 2)
         self.assertEqual(len(w.security_check({k: v for k, v in OK.items() if k != "rls_disabled_tables"})), 1)
+        self.assertEqual(len(w.security_check({k: v for k, v in OK.items() if k != "signups_7d"})), 1)
+
+    def test_no_publish_record(self):
+        self.assertEqual(w.check({**OK, "last_published_as_of": None}, None, THURSDAY), ["게시 기록이 없음"])
+
+    def test_usage_failure_is_security_alert(self):
+        with mock.patch.object(w, "fetch_usage", side_effect=OSError), mock.patch.object(w, "report") as report:
+            with self.assertRaises(SystemExit) as stop:
+                w.main()
+        self.assertEqual(stop.exception.code, 1)
+        self.assertEqual(report.call_args.args[0], w.SECURITY_TITLE)
 
 
 if __name__ == "__main__":

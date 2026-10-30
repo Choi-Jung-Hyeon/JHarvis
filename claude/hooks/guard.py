@@ -14,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-# (조건 함수, 명령, 실행 폴더). 조건은 스테이징된 파일 목록을 받아 True면 실행한다.
+# (조건 함수, 명령, 실행 폴더). 조건은 바뀐 파일 목록을 받아 True면 실행한다.
 CHECKS = [
     (lambda files: any(f.startswith("frontend/") and f.endswith((".ts", ".tsx")) for f in files),
      ["pnpm", "-s", "test:unit"], "frontend"),
@@ -33,11 +33,13 @@ def protect(tool_input: dict) -> str | None:
 def commit(tool_input: dict) -> str | None:
     if not re.search(r"\bgit\b[^|;&]*\bcommit\b", tool_input.get("command", "")):
         return None
-    staged = subprocess.run(["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"], cwd=ROOT,
-                            capture_output=True, text=True).stdout.split()
+    # shortcut: 커밋에 안 들어갈 변경도 검사한다. `git add -A && git commit`은 훅 시점에 스테이징 전이라 작업 트리 전체를 본다
+    status = subprocess.run(["git", "status", "--porcelain", "--no-renames", "-uall", "-z"], cwd=ROOT,
+                            capture_output=True, text=True).stdout
+    changed = [entry[3:] for entry in status.split("\0") if entry]
     for condition, command, folder in CHECKS:
         cwd = ROOT / folder
-        if not condition(staged) or not cwd.exists():
+        if not condition(changed) or not cwd.exists():
             continue
         result = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
         if result.returncode:
