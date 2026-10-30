@@ -1,0 +1,71 @@
+name: Free tier watch
+
+# 주 1회 무료 한도와 보안 설정을 재고, 기준을 넘으면 이슈를 남긴다. 서드파티 액션 없이 gh와 GITHUB_TOKEN만 쓴다.
+# 바꿀 값은 아래 env 한 곳에 모았고, 기준의 설명은 docs/ops/free-tier-budget.md에 둔다.
+#
+# 감시 항목
+# 1. DB 용량            DB_LIMIT_MB를 넘으면 경고
+# 2. 저장 공간           STORAGE_LIMIT_MB를 넘으면 경고
+# 3. 외부 API 남은 횟수   하루 상한 x 운영 종료일까지 남은 평일보다 적으면 경고
+# 4. 마지막 게시일        MAX_PUBLISH_LAG 영업일 넘게 밀리면 경고(자동 게시가 멈췄다는 뜻)
+# 5. RLS 꺼짐           RLS가 꺼진 public 테이블이 하나라도 있으면 보안 이슈를 열고 작업을 실패시킨다(실패 메일이 간다)
+# 6. 가입 급증           7일 가입이 SIGNUPS_7D_LIMIT를 넘으면 보안 경고
+# 7. 인증 Site URL      SITE_URL과 다르면 이슈(연동 기능이 배포마다 덮어쓴 사고가 있었다). 자동으로 되돌리지 않는다
+# 8. 예약 워크플로 다시 켜기  공개 레포는 60일 동안 활동이 없으면 예약 실행이 꺼진다. 주 1회 API로 다시 켠다
+#
+# 측정값이 없으면(비밀값 미등록) 그 항목은 건너뛰므로, 비밀값을 넣기 전에도 8번은 돈다. 측정이 실패하면 경고로 남긴다.
+#
+# 정각 피하기: GitHub 예약 실행은 정각과 30분에 몰려 몇 시간씩 늦는다. :07, :13, :37, :47처럼 다른 분을 쓴다.
+# 정기 게시 작업이면 다음 날 아침 예비 실행을 하나 더 두고, 이미 게시됐으면 바로 끝나게 만든다.
+# cron은 UTC다. 아래는 월요일 10:07 KST.
+on:
+  schedule:
+    - cron: "7 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "측정만 하고 이슈를 열지 않는다(RLS가 꺼져 있으면 실패는 한다)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+env:
+  DB_LIMIT_MB: "350"          # 무료 한도의 약 70%
+  STORAGE_LIMIT_MB: "700"     # 무료 한도의 약 70%
+  API_DAILY_PLAN: "0"         # 외부 API 하루 상한. 0이면 API 항목을 건너뛴다
+  PLAN_END: "2099-12-31"      # 운영 종료일
+  MAX_PUBLISH_LAG: "2"        # 게시 지연 허용(영업일). 공휴일은 세지 않아 하루 일찍 울릴 수 있다
+  SIGNUPS_7D_LIMIT: "50"      # 프로젝트 규모에 비해 수상한 7일 가입 수
+  SITE_URL: ""                # 인증 Site URL. 비우면 건너뛴다
+  OWNER: ""                   # 경고 이슈 담당 GitHub 계정. 비우면 지정하지 않는다
+  UTC_OFFSET_HOURS: "9"       # 날짜 계산 시간대
+
+jobs:
+  watch:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Keep scheduled workflows enabled
+        if: ${{ !inputs.dry_run }}
+        run: |
+          for file in $(grep -l "^  schedule:" .github/workflows/*.yml); do
+            gh api -X PUT "repos/$GH_REPO/actions/workflows/$(basename "$file")/enable"
+            echo "enabled $(basename "$file")"
+          done
+
+      - name: Measure free tier usage
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          API_KEY: ${{ secrets.API_KEY }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: python3 .github/scripts/free_tier_watch.py

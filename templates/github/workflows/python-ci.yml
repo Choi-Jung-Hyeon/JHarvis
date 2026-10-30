@@ -1,0 +1,88 @@
+name: Python CI
+
+# 바꿀 값은 아래 env 한 곳에 모았다(BLOCK_A_DIR, BLOCK_B_DIR, CONTRACT_DIR, PYTHON_VERSION).
+# 블록이 하나면 block-b job을 지우고, 셋 이상이면 같은 모양으로 복사한다.
+#
+# 왜 이렇게 만들었나
+# - PR에서는 워크플로를 항상 시작하고 job 안에서 경로를 본다. on.pull_request.paths로 거르면 변경 없는 PR에서
+#   필수 체크가 보고되지 않아 머지가 영원히 대기한다. 건너뛴 job은 "통과"로 보고된다.
+# - 블록 사이 계약(CONTRACT_DIR)이 바뀌면 모든 블록을 다시 검사한다.
+# - 서드파티 액션은 커밋 SHA로 고정한다. GitHub 공식 actions/*는 태그로 두고 Dependabot이 갱신한다.
+# - 폴더가 아직 없으면 경로 조건이 거짓이라 건너뛴다. 새 레포에 넣어도 빨갛게 되지 않는다.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  BLOCK_A_DIR: backend/block_a
+  BLOCK_B_DIR: backend/block_b
+  CONTRACT_DIR: schema
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  changes:
+    runs-on: ubuntu-24.04
+    outputs:
+      block_a: ${{ steps.filter.outputs.block_a }}
+      block_b: ${{ steps.filter.outputs.block_b }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        id: filter
+        with:
+          filters: |
+            block_a:
+              - '${{ env.BLOCK_A_DIR }}/**'
+              - '${{ env.CONTRACT_DIR }}/**'
+              - '.github/workflows/python-ci.yml'
+            block_b:
+              - '${{ env.BLOCK_B_DIR }}/**'
+              - '${{ env.CONTRACT_DIR }}/**'
+              - '.github/workflows/python-ci.yml'
+
+  block-a-test:
+    needs: changes
+    if: ${{ needs.changes.outputs.block_a == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.BLOCK_A_DIR }}/requirements*.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip ruff pytest
+          pip install -r "$BLOCK_A_DIR/requirements.txt"
+      - name: Lint (ruff)
+        run: ruff check "$BLOCK_A_DIR"
+      - name: Test (pytest)
+        run: pytest "$BLOCK_A_DIR" -v
+
+  block-b-test:
+    needs: changes
+    if: ${{ needs.changes.outputs.block_b == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: ${{ env.BLOCK_B_DIR }}/requirements*.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip ruff pytest
+          # torch를 쓰는 블록이면 requirements보다 먼저 CPU 빌드를 설치한다(CUDA 빌드는 수 GB).
+          # pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r "$BLOCK_B_DIR/requirements.txt"
+      - name: Lint (ruff)
+        run: ruff check "$BLOCK_B_DIR"
+      - name: Test (pytest)
+        run: pytest "$BLOCK_B_DIR" -v
