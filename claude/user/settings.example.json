@@ -1,10 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh api:*)",
       "Bash(git stash:*)",
-      "Bash(git checkout:*)",
+      "Bash(git checkout:*)"
+    ],
+    "ask": [
+      "Bash(gh api:*)",
       "Bash(git push:*)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
     ]
   },
   "model": "opus",

@@ -18,6 +18,7 @@ bash ~/jharvis/scripts/bootstrap.sh --hackathon # 짧은 프로젝트
 bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둔다):
 
 - `AGENTS.md`(규칙 원본), `CLAUDE.md`(AGENTS.md를 가리키는 몇 줄), `DESIGN.md`(화면이 있을 때)
+- `.gitignore`(이미 있으면 없는 줄만 덧붙임)
 - `.claude/settings.json`, `.claude/hooks/guard.py`(비밀키 파일 수정 차단, 커밋 전 빠른 검사)
 - `.claude/skills/`(검토하고 SHA를 고정한 디자인 스킬, 화면이 있을 때만)
 - `.github/pull_request_template.md`, 이슈 양식
