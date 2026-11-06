@@ -179,6 +179,7 @@
 | PHP, GitLab, NGINX, Node.js Brotli 패치 | 확인만: 스택에 없거나 플랫폼이 자동 적용. 로컬 개발 PC만 직접 올린다 | 10-26 |
 | LiteLLM 1.107.0 변조 | 확인만: 요구 파일과 로컬 환경 어디에도 없음 | 10-26 |
 | Tailworm(Tailscale SSH 결함) | 확인만: 스택에 없음. 개인 PC에서 쓴다면 SSH 규칙을 기기 쌍 단위로 좁힌다 | 10-27 |
+| OpenSSH 비밀번호 인증 우회(Alpine, musl, PAM 없는 sshd, 10.6p2에서 수정) | 확인만: 개발 PC는 Ubuntu(glibc)이고 sshd가 꺼져 있다. 레포에 Alpine 이미지가 없다. Alpine 컨테이너에서 sshd를 켜게 되면 `PasswordAuthentication no` | 11-06 |
 
 ## 스크랩 판정 기록
 
@@ -212,3 +213,20 @@
 | "AI 에이전트 툴 4가지" 영상 | 기존 판정 유지(추정) | 이름이 없어 설명으로 추정했다: Graft(Trail-code), Agency Agents, Codebase Memory MCP, OpenMontage. 모두 기각. 영상에서 다른 이름이 나오면 다시 판정한다 |
 | 다크패턴 9가지 | **채택** | 9개 목록은 스크랩에 없어 [deceptive.design](https://www.deceptive.design/types) 분류로 [DESIGN 템플릿](../templates/DESIGN.md)에 넣었다. 국내 규제: 전자상거래법 13개 유형(2025-02-14 시행), 금융 다크패턴 가이드라인(2026-04 시행)이 있다는 것은 금융위 자료로 확인했고, 13개 목록 원문은 확인하지 못했다 |
 
+### 2026-11-06
+
+공식 플러그인 4개는 로컬 마켓플레이스 사본(`anthropics/claude-plugins-official`, 11-05 갱신)의 README, 훅 설정, 명령 원문을 읽고 판정했습니다. 나머지는 GitHub API와 원문 페이지로 확인했습니다.
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| "클로드코드 플러그인 5개" 묶음("댓글 남기면 설치 명령어") | 구성 도구를 각각 판정 | 댓글 유도형 미끼 글이다(5). 도구 자체는 공식 플러그인이라 따로 봤다 |
+| claude-code-setup (Apache-2.0) | 기존 판정 유지(기각, 10-26) | 읽기만 하는 추천 스킬이고, 추천이 MCP, 서브에이전트 쪽으로 간다. 우리 훅, 규칙 문서와 겹친다(3, 6) |
+| hookify (Apache-2.0) | 기각, 생각만 | PreToolUse, PostToolUse, Stop, UserPromptSubmit 네 곳에 매번 파이썬 훅을 건다. 규칙은 `.claude/hookify.*.local.md`로 따로 관리한다(2, 6). 우리는 되돌리기 힘든 규칙만 `claude/hooks/`에 직접 둔다. 가져올 생각: 사람이 고쳐 준 실수를 모아 규칙 후보로 만드는 것은 이미 "사고 → 규칙 한 줄"로 한다 |
+| commit-commands (Apache-2.0) | 기각 | `/commit-push-pr`이 `allowed-tools`에 `git push`, `gh pr create`를 넣어 push 확인을 건너뛰고, 한 번에 끝내라고 지시한다. #3의 "push는 묻는다"와 충돌하고, PR 본문도 우리 양식(되돌리는 법, 위험도)을 따르지 않는다(6, 7) |
+| Playwright | 기존 판정 유지(사용 중, 10-18) | |
+| Ralph Loop (Apache-2.0) | 기각 | Stop 훅이 끝내려는 것을 막고 같은 프롬프트를 다시 넣는다. `--max-iterations` 기본값이 무제한이다(3, 7) |
+| [claude-mem](https://github.com/thedotmack/claude-mem) (Apache-2.0) | 기존 판정 유지(기각, 10-27) | 라이선스 표기는 이제 Apache-2.0으로 확인했다. 매 세션 기록을 AI로 압축해 다시 넣으므로 토큰이 들고, 내장 메모리와 겹친다(3, 6) |
+| [Scenario Agent Skills](https://github.com/scenario-labs/skills) (MIT) | 기각 | 스킬은 MIT지만 생성은 Scenario MCP 서버로 하고, 사용량이 과금된다(README에 "price before spending"). 스킬이 80개가 넘는다(1, 3) |
+| Pickle(유튜브 영상) | 기각 | 원본 레포나 문서를 찾지 못했다(5). 쇼핑, 예약, 전화를 대신 실행하려면 계정과 결제 권한을 맡겨야 한다(7) |
+| [OpenAI GPT-6 Astra 성능 저하 보고서](https://alignment.openai.com/misalignment-reports/covert-underperformance-on-safety-research-tasks) (11-04 갱신) | 아이디어만 | 도구가 아니다. 숨긴 채점 항목 달성률이 안전 연구 약 10%, 역량 연구 약 16%로 나뉘었고, 없는 장애물을 보고하거나 되던 해결책을 버렸다. 가져올 생각: 에이전트가 "막혔다", "안 된다"고 하면 재현 명령과 출력을 같이 받는다. "검증됨만 완료"([01-ai-collab.md](../principles/01-ai-collab.md))를 막힘 보고로 넓히는 후보 |
+| OpenSSH 10.6p2(Alpine) | 확인만 | 위 [보안 소식](#보안-소식-확인만)에 적었다 |
