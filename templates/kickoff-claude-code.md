@@ -22,6 +22,7 @@ Constraints
 3. 팀 프로젝트면 schema/에 블록 사이 계약 초안과 예시 JSON을 둔다.
 4. .claude/hooks/guard.py의 커밋 전 검사 명령을 이 저장소에 맞춘다.
 5. 화면이 있으면 DESIGN.md의 <빈칸>(색, 서체)을 채우고, 없으면 지운다.
+6. ~/jharvis/tools/tool-radar.md의 "쓰는 것", "필요할 때만"에서 "공통"과 이 프로젝트 종류(웹 화면, LLM 앱, 데이터·ML, 문서·발표) 행만 골라 표로 제안한다. 설치는 사람이 고른 뒤에 한다.
 
 Done-when
 - CI가 초록이고, guard.py가 .env 수정을 막는 것을 한 번 시험했다.

@@ -3,58 +3,60 @@
 2026-09~10 졸업작품에서 판정한 것을 분야별로 모았습니다(프로젝트 메모리의 10/06 이전 판정 포함). 날짜 뒤 PB는 [PB 어드바이저 대시보드](../cases/pb-advisor.md)에서 그 프로젝트 조건으로 판정한 것입니다. Ollama처럼 졸업작품 판정과 다른 행은 전제가 달라서이고, 둘 다 남깁니다. 판정 기준은 [scrap-review.md](scrap-review.md).
 날짜는 마지막 판정일. 바뀌면 지우지 말고 새 줄에 날짜와 함께 덧붙입니다.
 
+**프로젝트에 골라 쓰기**: "쓰는 것"과 "필요할 때만"의 둘째 칸이 프로젝트 종류입니다(공통, 웹 화면, LLM 앱, 데이터·ML, 문서·발표). 새 프로젝트에서는 공통 + 해당 종류 행만 고릅니다. 판정은 무료, 셀프 호스팅 없음 전제이고, 날짜가 오래된 행은 가져다 쓰기 전에 새 판을 확인합니다.
+
 묶음으로 다시 온 스크랩(인기 스킬 5개, 스킬 TOP 10, 공식 플러그인 TOP 5, 무료 플러그인 6가지, 고수 도구 4개)은 구성 도구를 아래에서 각각 판정했으므로 "기존 판정 유지"로 끝냅니다.
 
 ## 쓰는 것
 
-| 도구 | 판정 | 어떻게 쓰나 | 날짜 |
-|---|---|---|---|
-| Claude Code 내장 `/code-review`, `/security-review`, `/simplify` | 채택 | PR 점검. 운영 경로를 바꾸는 PR은 머지 전 `/security-review`(추가 비용 없음) | 10-11 |
-| Claude Code 훅(PreToolUse) | 채택 | 되돌리기 힘든 규칙만: 비밀키 파일 수정 차단, 커밋 전 빠른 검사. 종료 코드 2만 막는다 | 10-20 |
-| Claude Design (`/design`, 단독 앱) | 사용 | 새 화면 구현 전 시안 여러 개. 시안도 DESIGN.md를 따른다 | 09-23 |
-| Claude 슬라이드, 독스, 디자인 | 발표 준비 후보 | 발표 자료를 채팅에서 만들고 PPTX나 PDF로 | 10-27 |
-| [ponytail](https://github.com/DietrichGebert/ponytail) (MIT) | 사용 중(전역) | 코드 줄이기, "라이브러리 대신 네이티브 한 줄". 작업 끝에 `/ponytail-audit`(레포 전체), `/ponytail-review`(diff). 5.x로 갱신 | 10-26 |
-| Playwright(`@playwright/test` + 플러그인, Playwright MCP) | 사용 중 | e2e와 전후 스크린샷은 스크립트로. MCP 도구는 한두 번 눌러 볼 때만(스냅샷 토큰이 큼) | 10-18 |
-| [frontend-design](https://github.com/anthropics/skills) (Apache-2.0) | 채택(SHA 고정) | 새 화면: 브리프 → 토큰 계획 → 기본값 점검 → 구현 → 스크린샷 자기 비판 | 09-26 |
-| [taste-skill](https://github.com/Leonxlnx/taste-skill) `redesign-skill`, `minimalist-skill` (MIT) | 채택(2종만, SHA 고정) | 기존 화면 진단, 절제된 표면 원칙. 본체와 다른 스타일은 제외 | 10-11 |
-| [ui-skills](https://github.com/ibelick/ui-skills) `baseline-ui`, `fixing-motion-performance` (MIT) | 채택(SHA 고정) | 간격, 위계, 빈 상태, 모션 점검 | 09-26 |
-| [web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) (MIT), 스킬판 web-design-guidelines | 규칙만 적용 | 원문으로 한 번 점검(`theme-color`, `touch-action` 등). 스킬은 실행마다 원격 규칙을 받아 SHA 고정과 안 맞음 | 10-09 |
-| Dependabot, CodeQL 기본, GitHub Rulesets | 사용 | 공개 레포 무료 기능. 필수 체크로 머지 막기 | 10-09 |
-| 검색 노출 기본(robots, sitemap, 페이지별 메타, 서치 콘솔) | 채택 | 프레임워크 기본 기능으로. 검색 도구 소유 확인은 사람이 | 10-13 |
-| 웹 출시 전 점검("출시 전 20가지" 중 개인정보 처리방침, 맞춤 404, OG 이미지) | 채택 | 가입을 받으면 개인정보 처리방침 필수 | 10-26 |
-| BentoPDF | 개인 도구 | 보고서 PDF 합치기, 줄이기(브라우저 안에서 처리) | 10-26 |
-| 입력창 기준(이름표 = 무엇, placeholder = 형식, 오류 = 다음 행동, 선택 요소 표시) | 채택 | 입력칸을 만들 때마다 네 가지 점검. 색만으로 오류를 알리지 않는다 | 10-15 |
-| `pnpm audit --prod`, `pip-audit` | 사용 | 보안 소식을 보면 먼저 돌린다(추가 비용 없음) | 10-26 |
-| 네이티브 `<details>` + 쉬운 말 사전 | 채택 | 용어 풀이에 의존성 0, 키보드와 스크린리더 기본 지원 | 10-07 |
-| Recharts (MIT) | 유지 | 이미 번들에 있어 순증가가 없다 | 10-07 |
-| LangGraph | 사용 | 분기, 재시도 루프, 사람 승인 게이트, 실패 시 정지 노드를 그래프로 표현. 노드 수와 LLM 호출 노드를 셀 수 있게 | 07-07, PB |
-| LangSmith | 사용 | 실행 트레이스. 증거 묶음에는 트레이스 참조만 넣는다. 리전은 팀원 위치에 맞춰 고정 | 08-06, PB |
-| Chroma + BM25 하이브리드 | 사용 | 로컬 소형 모델의 약점을 키워드 검색으로 보완. 문서 교체 시 인덱스 전체 재구축 | 07-13, PB |
-| Ollama + 4B급 instruct 모델, 다국어 임베딩 모델 | 사용(폐쇄망 과제) | 외부 API 없는 전제. 컨텍스트 길이는 Modelfile로 고정. **thinking 변형은 도구 호출에서 무한 루프 → 금지** | 07-07, PB |
-| FastMCP (stdio) | 사용 | MCP 서버. 스파이크로 도구 호출 3/3 성공을 먼저 확인한 뒤 채택 | 07-07, PB |
-| Supabase (Postgres, pgvector, Auth, RLS) | 사용 | DB와 로그인. 키는 채팅에 붙이지 않고 사람이 콘솔과 배포 환경변수에 직접 | 06-29, PB |
-| Vercel Hobby / Render Free | 사용(제약 있음) | 프리뷰 없음 → 발표 전날 밤 커밋 마감. 백엔드 비활성 스핀다운 → 시연 전 워밍업 | 09-09, PB |
-| `git subtree` | 채택 | 두 레포를 이력 보존한 채 하나로 통합. 원본 레포는 건드리지 않고, 파일 해시로 원본과 대조 | 08-31, PB |
-| ruff + pytest CI, 브랜치 보호, PR 필수 | 사용 | 모든 레포 공통 첫날 설정 | 05-30, PB |
-| 속성 테스트 | 채택 | "어떤 입력에서도 실패 시 확정 불가" 같은 규칙을 1:1로 검사 | 08-06, PB |
-| Gemini Code Assist PR 리뷰봇 | 사용 → 재확인 | PR 자동 리뷰. IDE 확장과 CLI 종료 공지가 리뷰봇에 미치는지는 당시 미확정 | 06-04, PB |
-| Notion MCP | 사용 | 회의록, 명세서 갱신. 쓰기 뒤 fetch로 한글 확인, HTML 태그 금지 | 06-11, PB |
-| Streamlit | 사용(보조) | 검토자 콘솔로만. 메인 데모를 Streamlit으로 옮기는 안은 기각(아래) | 08-31, PB |
+| 도구 | 어떤 프로젝트에 | 판정 | 어떻게 쓰나 | 날짜 |
+|---|---|---|---|---|
+| Claude Code 내장 `/code-review`, `/security-review`, `/simplify` | 공통 | 채택 | PR 점검. 운영 경로를 바꾸는 PR은 머지 전 `/security-review`(추가 비용 없음) | 10-11 |
+| Claude Code 훅(PreToolUse) | 공통 | 채택 | 되돌리기 힘든 규칙만: 비밀키 파일 수정 차단, 커밋 전 빠른 검사. 종료 코드 2만 막는다 | 10-20 |
+| Claude Design (`/design`, 단독 앱) | 웹 화면 | 사용 | 새 화면 구현 전 시안 여러 개. 시안도 DESIGN.md를 따른다 | 09-23 |
+| Claude 슬라이드, 독스, 디자인 | 문서·발표 | 발표 준비 후보 | 발표 자료를 채팅에서 만들고 PPTX나 PDF로 | 10-27 |
+| [ponytail](https://github.com/DietrichGebert/ponytail) (MIT) | 공통 | 사용 중(전역) | 코드 줄이기, "라이브러리 대신 네이티브 한 줄". 작업 끝에 `/ponytail-audit`(레포 전체), `/ponytail-review`(diff). 5.x로 갱신 | 10-26 |
+| Playwright(`@playwright/test` + 플러그인, Playwright MCP) | 웹 화면 | 사용 중 | e2e와 전후 스크린샷은 스크립트로. MCP 도구는 한두 번 눌러 볼 때만(스냅샷 토큰이 큼) | 10-18 |
+| [frontend-design](https://github.com/anthropics/skills) (Apache-2.0) | 웹 화면 | 채택(SHA 고정) | 새 화면: 브리프 → 토큰 계획 → 기본값 점검 → 구현 → 스크린샷 자기 비판 | 09-26 |
+| [taste-skill](https://github.com/Leonxlnx/taste-skill) `redesign-skill`, `minimalist-skill` (MIT) | 웹 화면 | 채택(2종만, SHA 고정) | 기존 화면 진단, 절제된 표면 원칙. 본체와 다른 스타일은 제외 | 10-11 |
+| [ui-skills](https://github.com/ibelick/ui-skills) `baseline-ui`, `fixing-motion-performance` (MIT) | 웹 화면 | 채택(SHA 고정) | 간격, 위계, 빈 상태, 모션 점검 | 09-26 |
+| [web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) (MIT), 스킬판 web-design-guidelines | 웹 화면 | 규칙만 적용 | 원문으로 한 번 점검(`theme-color`, `touch-action` 등). 스킬은 실행마다 원격 규칙을 받아 SHA 고정과 안 맞음 | 10-09 |
+| Dependabot, CodeQL 기본, GitHub Rulesets | 공통 | 사용 | 공개 레포 무료 기능. 필수 체크로 머지 막기 | 10-09 |
+| 검색 노출 기본(robots, sitemap, 페이지별 메타, 서치 콘솔) | 웹 화면 | 채택 | 프레임워크 기본 기능으로. 검색 도구 소유 확인은 사람이 | 10-13 |
+| 웹 출시 전 점검("출시 전 20가지" 중 개인정보 처리방침, 맞춤 404, OG 이미지) | 웹 화면 | 채택 | 가입을 받으면 개인정보 처리방침 필수 | 10-26 |
+| BentoPDF | 문서·발표 | 개인 도구 | 보고서 PDF 합치기, 줄이기(브라우저 안에서 처리) | 10-26 |
+| 입력창 기준(이름표 = 무엇, placeholder = 형식, 오류 = 다음 행동, 선택 요소 표시) | 웹 화면 | 채택 | 입력칸을 만들 때마다 네 가지 점검. 색만으로 오류를 알리지 않는다 | 10-15 |
+| `pnpm audit --prod`, `pip-audit` | 공통 | 사용 | 보안 소식을 보면 먼저 돌린다(추가 비용 없음) | 10-26 |
+| 네이티브 `<details>` + 쉬운 말 사전 | 웹 화면 | 채택 | 용어 풀이에 의존성 0, 키보드와 스크린리더 기본 지원 | 10-07 |
+| Recharts (MIT) | 웹 화면 | 유지 | 이미 번들에 있어 순증가가 없다 | 10-07 |
+| LangGraph | LLM 앱 | 사용 | 분기, 재시도 루프, 사람 승인 게이트, 실패 시 정지 노드를 그래프로 표현. 노드 수와 LLM 호출 노드를 셀 수 있게 | 07-07, PB |
+| LangSmith | LLM 앱 | 사용 | 실행 트레이스. 증거 묶음에는 트레이스 참조만 넣는다. 리전은 팀원 위치에 맞춰 고정 | 08-06, PB |
+| Chroma + BM25 하이브리드 | LLM 앱 | 사용 | 로컬 소형 모델의 약점을 키워드 검색으로 보완. 문서 교체 시 인덱스 전체 재구축 | 07-13, PB |
+| Ollama + 4B급 instruct 모델, 다국어 임베딩 모델 | LLM 앱(폐쇄망) | 사용(폐쇄망 과제) | 외부 API 없는 전제. 컨텍스트 길이는 Modelfile로 고정. **thinking 변형은 도구 호출에서 무한 루프 → 금지** | 07-07, PB |
+| FastMCP (stdio) | LLM 앱 | 사용 | MCP 서버. 스파이크로 도구 호출 3/3 성공을 먼저 확인한 뒤 채택 | 07-07, PB |
+| Supabase (Postgres, pgvector, Auth, RLS) | 웹 화면 | 사용 | DB와 로그인. 키는 채팅에 붙이지 않고 사람이 콘솔과 배포 환경변수에 직접 | 06-29, PB |
+| Vercel Hobby / Render Free | 웹 화면 | 사용(제약 있음) | 프리뷰 없음 → 발표 전날 밤 커밋 마감. 백엔드 비활성 스핀다운 → 시연 전 워밍업 | 09-09, PB |
+| `git subtree` | 공통 | 채택 | 두 레포를 이력 보존한 채 하나로 통합. 원본 레포는 건드리지 않고, 파일 해시로 원본과 대조 | 08-31, PB |
+| ruff + pytest CI, 브랜치 보호, PR 필수 | 공통 | 사용 | 모든 레포 공통 첫날 설정 | 05-30, PB |
+| 속성 테스트 | 공통 | 채택 | "어떤 입력에서도 실패 시 확정 불가" 같은 규칙을 1:1로 검사 | 08-06, PB |
+| Gemini Code Assist PR 리뷰봇 | 공통 | 사용 → 재확인 | PR 자동 리뷰. IDE 확장과 CLI 종료 공지가 리뷰봇에 미치는지는 당시 미확정 | 06-04, PB |
+| Notion MCP | 문서·발표 | 사용 | 회의록, 명세서 갱신. 쓰기 뒤 fetch로 한글 확인, HTML 태그 금지 | 06-11, PB |
+| Streamlit | 데이터·ML | 사용(보조) | 검토자 콘솔로만. 메인 데모를 Streamlit으로 옮기는 안은 기각(아래) | 08-31, PB |
 
 ## 필요할 때만 (설치 없이 일회성)
 
-| 도구 | 쓰는 법 | 날짜 |
-|---|---|---|
-| [MarkItDown](https://github.com/microsoft/markitdown) (MIT) | `pipx run markitdown 파일.docx` | 10-18 |
-| [gitingest](https://github.com/coderamp-labs/gitingest) (MIT) | 남의 레포를 웹 채팅에 통째로 보여 줄 때만 | 10-26 |
-| 보안 감사 스킬(Cloudflare security-audit-skill, 공식 `claude-security`) | 큰 출시 전 한 번(여러 에이전트라 토큰이 큼) | 10-26 |
-| HyperFrames (Apache-2.0) | 발표 영상이 필요할 때 | 10-06 |
-| Remotion | HyperFrames가 맞지 않을 때만. 일정 규모 이상 회사는 라이선스가 따로 있어 후순위 | 10-09 |
-| knip | 안 쓰는 export 찾기: `npx -y knip@5 --include exports,types,files`. 결과는 검토 범위 파일로만 좁힌다 | 10-13 |
-| gitleaks | git 전체 이력 비밀키 검사, 릴리스 바이너리 일회성 | 10-20 |
-| Stirling-PDF, MinerU | PDF 작업은 BentoPDF로 충분, 설치가 필요한 이 둘은 꼭 필요할 때만 | 10-26 |
-| 회의 녹음 요약 서비스 | 발표, 회의 녹음을 "아이디어 회의" 형식으로 요약해 링크 공유. 개인 선택 | 06-20, PB |
-| 다중 호출 투표 하네스(자작) | LLM 판정 흔들림 관측용. 호출 수가 3배라 표본에만, 공식 지표에 섞지 않음 | 08-06, PB |
+| 도구 | 어떤 프로젝트에 | 쓰는 법 | 날짜 |
+|---|---|---|---|
+| [MarkItDown](https://github.com/microsoft/markitdown) (MIT) | 문서·발표 | `pipx run markitdown 파일.docx` | 10-18 |
+| [gitingest](https://github.com/coderamp-labs/gitingest) (MIT) | 공통 | 남의 레포를 웹 채팅에 통째로 보여 줄 때만 | 10-26 |
+| 보안 감사 스킬(Cloudflare security-audit-skill, 공식 `claude-security`) | 공통 | 큰 출시 전 한 번(여러 에이전트라 토큰이 큼) | 10-26 |
+| HyperFrames (Apache-2.0) | 문서·발표 | 발표 영상이 필요할 때 | 10-06 |
+| Remotion | 문서·발표 | HyperFrames가 맞지 않을 때만. 일정 규모 이상 회사는 라이선스가 따로 있어 후순위 | 10-09 |
+| knip | 웹 화면 | 안 쓰는 export 찾기: `npx -y knip@5 --include exports,types,files`. 결과는 검토 범위 파일로만 좁힌다 | 10-13 |
+| gitleaks | 공통 | git 전체 이력 비밀키 검사, 릴리스 바이너리 일회성 | 10-20 |
+| Stirling-PDF, MinerU | 문서·발표 | PDF 작업은 BentoPDF로 충분, 설치가 필요한 이 둘은 꼭 필요할 때만 | 10-26 |
+| 회의 녹음 요약 서비스 | 문서·발표 | 발표, 회의 녹음을 "아이디어 회의" 형식으로 요약해 링크 공유. 개인 선택 | 06-20, PB |
+| 다중 호출 투표 하네스(자작) | LLM 앱 | LLM 판정 흔들림 관측용. 호출 수가 3배라 표본에만, 공식 지표에 섞지 않음 | 08-06, PB |
 
 ## 아이디어만 (설치하지 않음)
 
