@@ -35,7 +35,7 @@ SNS나 뉴스에서 본 도구, 스킬, 팁을 그대로 설치하지 않고, �
 
 ## Claude Code에 맡기는 프롬프트
 
-```
+```text
 Goal
 스크랩 목록을 JHarvis/tools/scrap-review.md 기준으로 판정하고 tool-radar.md에 추가한다.
 

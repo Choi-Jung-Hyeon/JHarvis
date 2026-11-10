@@ -48,9 +48,9 @@ class Watch(unittest.TestCase):
         self.assertEqual(w.check({**OK, "last_published_as_of": None}, None, THURSDAY), ["게시 기록이 없음"])
 
     def test_usage_failure_is_security_alert(self):
-        with mock.patch.object(w, "fetch_usage", side_effect=OSError), mock.patch.object(w, "report") as report:
-            with self.assertRaises(SystemExit) as stop:
-                w.main()
+        with (mock.patch.object(w, "fetch_usage", side_effect=OSError), mock.patch.object(w, "report") as report,
+              self.assertRaises(SystemExit) as stop):
+            w.main()
         self.assertEqual(stop.exception.code, 1)
         self.assertEqual(report.call_args.args[0], w.SECURITY_TITLE)
 

@@ -116,11 +116,11 @@ def main():
     today = datetime.now(timezone(timedelta(hours=int(setting("UTC_OFFSET_HOURS", "9"))))).date()
     try:
         usage, usage_error = fetch_usage(), None
-    except Exception as exc:  # 측정 실패도 경고로 남긴다. RLS를 못 봤으니 보안 경고로 올린다
+    except Exception as exc:  # noqa: BLE001 측정 실패도 경고로 남긴다. RLS를 못 봤으니 보안 경고로 올린다
         usage, usage_error = None, f"DB 측정 실패({type(exc).__name__})"
     try:
         remaining = api_remaining()
-    except Exception:  # 측정 실패도 경고로 남긴다
+    except Exception:  # noqa: BLE001 측정 실패도 경고로 남긴다
         remaining = None
     alerts, security = check(usage, remaining, today), security_check(usage)
     if usage_error:
@@ -130,7 +130,7 @@ def main():
     if expected and setting("AUTH_CONFIG_URL") and setting("SUPABASE_ACCESS_TOKEN"):
         try:
             site_url = current_site_url()
-        except Exception as exc:  # 측정 실패도 경고로 남긴다
+        except Exception as exc:  # noqa: BLE001 측정 실패도 경고로 남긴다
             site_url = f"읽기 실패({type(exc).__name__})"
 
     measured = {"db_bytes": (usage or {}).get("db_bytes"), "storage_bytes": (usage or {}).get("storage_bytes"),

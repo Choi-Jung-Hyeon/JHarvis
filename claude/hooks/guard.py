@@ -34,14 +34,14 @@ def commit(tool_input: dict) -> str | None:
     if not re.search(r"\bgit\b[^|;&]*\bcommit\b", tool_input.get("command", "")):
         return None
     # shortcut: 커밋에 안 들어갈 변경도 검사한다. `git add -A && git commit`은 훅 시점에 스테이징 전이라 작업 트리 전체를 본다
-    status = subprocess.run(["git", "status", "--porcelain", "--no-renames", "-uall", "-z"], cwd=ROOT,
+    status = subprocess.run(["git", "status", "--porcelain", "--no-renames", "-uall", "-z"], cwd=ROOT, check=False,
                             capture_output=True, text=True).stdout
     changed = [entry[3:] for entry in status.split("\0") if entry]
     for condition, command, folder in CHECKS:
         cwd = ROOT / folder
         if not condition(changed) or not cwd.exists():
             continue
-        result = subprocess.run(command, cwd=cwd, capture_output=True, text=True)
+        result = subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=False)
         if result.returncode:
             tail = (result.stdout + result.stderr).strip().splitlines()[-15:]
             return f"커밋 전 검사 실패({' '.join(command[:3])}). 고친 뒤 다시 커밋하세요.\n" + "\n".join(tail)

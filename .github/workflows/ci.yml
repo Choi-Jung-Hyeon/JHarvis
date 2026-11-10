@@ -1,0 +1,67 @@
+# JHarvis 레포 자신의 CI. 검사 명령은 scripts/check.sh 한 곳에 있고 여기서는 도구만 설치한다.
+# (templates/github/workflows/ 는 다른 레포에 복사해 줄 양식이다)
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash scripts/check.sh shell # shellcheck은 러너 기본 설치
+
+  markdownlint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash scripts/check.sh md
+
+  actionlint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install actionlint 1.7.12 (checksum 확인)
+        run: |
+          f=actionlint_1.7.12_linux_amd64.tar.gz
+          curl -sSLO "https://github.com/rhysd/actionlint/releases/download/v1.7.12/$f"
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  $f" | sha256sum -c -
+          tar xzf "$f" -C /usr/local/bin actionlint
+      - run: bash scripts/check.sh actions
+
+  ruff:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: pipx install ruff==0.17.4
+      - run: bash scripts/check.sh py
+
+  links:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Internal links (깨지면 실패)
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --offline --no-progress README.md START.md
+      - name: External links (경고만)
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: --no-progress README.md START.md
+          fail: false
+
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash scripts/check.sh test

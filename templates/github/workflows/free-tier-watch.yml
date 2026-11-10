@@ -57,7 +57,7 @@ jobs:
       - name: Keep scheduled workflows enabled
         if: ${{ !inputs.dry_run }}
         run: |
-          for file in $(grep -l "^  schedule:" .github/workflows/*.yml); do
+          grep -l "^  schedule:" .github/workflows/*.yml | while IFS= read -r file; do
             gh api -X PUT "repos/$GH_REPO/actions/workflows/$(basename "$file")/enable"
             echo "enabled $(basename "$file")"
           done
