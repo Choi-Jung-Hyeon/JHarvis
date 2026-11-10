@@ -55,7 +55,7 @@
 
 4. Claude Code를 켜면 `extraKnownMarketplaces`와 `enabledPlugins`를 보고 설치를 묻습니다. 묻지 않으면 직접 설치합니다.
 
-   ```
+   ```text
    /plugin marketplace add DietrichGebert/ponytail
    /plugin install ponytail@ponytail
    /plugin install playwright@claude-plugins-official

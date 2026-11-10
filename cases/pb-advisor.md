@@ -13,6 +13,7 @@ PB가 고객 상담에 쓰는 대시보드를 만든 프로젝트. 5인 팀, 202
 | 5차 | 통합 허브(최종) | 통합 지도, 레포 통합, 시연 런북 |
 
 ## 스택
+
 Next.js 대시보드, Python 백엔드, LangGraph, LangSmith, Chroma + BM25, Ollama(폐쇄망), FastMCP, Supabase, Vercel Hobby, Render Free.
 
 ## 평가 지표 (공개 가능한 것만)

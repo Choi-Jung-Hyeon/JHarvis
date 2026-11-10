@@ -3,7 +3,7 @@
 새 Claude 프로젝트를 만들고 요강, 평가표, 기획서를 파일로 올린 뒤 아래를 채워 보냅니다.
 프로젝트 지침(Instructions)에 "작업 방식" 단락을 그대로 넣어 두면 새 채팅마다 다시 말하지 않아도 됩니다.
 
-```
+```text
 <프로젝트 이름>을 시작합니다. 제 작업 방식은 공개 레포 JHarvis(https://github.com/Choi-Jung-Hyeon/JHarvis)에 정리돼 있습니다.
 README, START.md, tacit-knowledge.md, principles/를 먼저 읽고 그 방식대로 진행해 주세요.
 

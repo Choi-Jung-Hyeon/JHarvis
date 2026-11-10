@@ -1,5 +1,7 @@
 # JHarvis
 
+[![ci](https://github.com/Choi-Jung-Hyeon/JHarvis/actions/workflows/ci.yml/badge.svg)](https://github.com/Choi-Jung-Hyeon/JHarvis/actions/workflows/ci.yml)
+
 AI 두 개(채팅 Claude와 Claude Code)로 프로젝트를 빠르게, 무료로, 근거 있게 끝내는 개인 작업 방식 모음입니다.
 2026년 졸업작품 Take a Look(4인 팀, 5~10월, 병합 PR 369개)과 PB 어드바이저 대시보드(증권사 대학생 멤버십 프로젝트)에서 실제로 써 보고 남긴 규칙, 템플릿, 도구 판정만 담았습니다.
 
@@ -52,6 +54,9 @@ bash ~/jharvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 - 새 프로젝트에서 배운 것은 이 레포에 PR로 올린다. 사례는 `cases/`, 규칙은 해당 `principles/` 파일, 도구 판정은 `tools/tool-radar.md`.
 - 판정이 바뀌면 지우지 않고 날짜와 함께 덧붙인다(왜 바뀌었는지가 다음 판단의 근거다).
 - 개인정보, 비밀키, 팀원 평가, 실제 계좌나 수치는 올리지 않는다(공개 레포).
+
+로컬 체크: `bash scripts/check.sh`(전부) 또는 `bash scripts/check.sh md test`(일부). PR마다 같은 체크가 CI로 돈다.
+없는 도구는 건너뛰고 끝에 알려 준다(shellcheck, actionlint, lychee, ruff, node).
 
 라이선스: 이 레포의 글과 스크립트는 MIT. `claude/skills/` 안의 스킬은 각 폴더의 원본 라이선스를 따른다.
 

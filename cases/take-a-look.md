@@ -17,6 +17,7 @@
 10월에 PR이 많은 것은 사용자 테스트와 지도교수 면담 의견을 작은 단위로 나눠 바로 고치고 운영 화면에서 확인했기 때문이다.
 
 ## 스택
+
 Next.js 16, React 19, Tailwind 4, Vercel Hobby / Supabase(RLS) / GitHub Actions + Python(LightGBM) / 별도 API 서버 없음, 블록 사이 JSON 스키마.
 
 ## 사고에서 나온 규칙
@@ -58,5 +59,6 @@ Next.js 16, React 19, Tailwind 4, Vercel Hobby / Supabase(RLS) / GitHub Actions 
 6. 보고서: 계획 대비 결과표, 효과 없는 실험 결과를 그대로, 개인 기여는 PR 번호와 API 집계로.
 
 ## 결과에서 배운 것
+
 - 연구 가설(가격, 거래량 기반 심리 지표 추가)은 AUC가 0.0003~0.0004 올랐지만 모의 투자 수익은 낮아져 개선을 확인하지 못했다. 그대로 보고하고 다음 단계 연구 과제로 넘겼다.
 - 가장 어려웠던 것은 모델이 아니라 화면이었다. 개발자의 숫자와 용어를 사용자의 말로 바꾸는 일.
