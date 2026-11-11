@@ -10,10 +10,7 @@
 
 ## 1. 레포에 넣기
 
-```bash
-bash ~/jharvis/scripts/bootstrap.sh            # 기본
-bash ~/jharvis/scripts/bootstrap.sh --hackathon # 짧은 프로젝트
-```
+명령과 옵션은 [README 빠른 시작](README.md#빠른-시작)에 있다.
 
 bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-new`로 옆에 둔다):
 
@@ -26,9 +23,7 @@ bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-n
 - `.github/workflows/`: 기본은 python-ci, web-ci, free-tier-watch(+ 스크립트, Dependabot), 해커톤은 CI 하나(화면이 있으면 web-ci). 맨 위 `env`에서 폴더 이름과 기준을 맞춘다
 - `docs/ops/free-tier-budget.md`, `docs/security/audit-template.md`, `docs/research/` 양식 5종, `lib/copy-*.mjs` 문구 검사(해커톤 모드에서는 생략)
 
-옵션: `--hackathon` 짧은 프로젝트, `--no-ui` 화면이 없는 프로젝트(DESIGN.md, 스킬, web-ci, 문구 검사 생략).
-
-새 레포 시작 순서: `bootstrap.sh` → 커밋하고 GitHub에 push → `bash ~/jharvis/scripts/github-setup.sh`로 미리보기 후 `--apply`(설명이 비어 있으면 `--description "…"`).
+push한 뒤 `github-setup.sh`로 레포 설정을 켠다(미리보기 후 `--apply`).
 첫 CI가 돈 뒤 Ruleset에 필수 체크(CI 잡 이름)를 사람이 추가한다. 경로는 스크립트 끝 "사람이 할 일"에 나온다.
 GitHub 설정은 공개 레포에서만 전부 무료이고, 비공개 레포에서는 유료 항목을 건너뛴다.
 
@@ -46,11 +41,12 @@ GitHub 설정은 공개 레포에서만 전부 무료이고, 비공개 레포에
 
 ## 4. 매일 반복하는 고리
 
-```text
-채팅 Claude: 계획과 프롬프트  →  Claude Code: 구현, PR, CI  →  /export  →  채팅 Claude: 검토표, 놓친 것, 다음 프롬프트
-                                          ↓
-                         사고나 실수가 나면 AGENTS.md에 규칙 한 줄 + 재발 방지 번호
-```
+흐름 그림은 [README 일하는 흐름](README.md#일하는-흐름)에 있다. 사고나 실수가 나면 AGENTS.md에 규칙 한 줄 + 재발 방지 번호.
+끝은 항상 교통정리 표와 넥스트 액션. 사람이 해야 할 일은 따라 할 수 있는 가이드로.
+
+## 5. 프로젝트가 끝나면
+
+프로젝트가 끝나면(해커톤은 끝난 날) 브랜치를 만들어 사례는 `cases/<프로젝트>.md`, 판단 패턴은 [tacit-knowledge.md](tacit-knowledge.md), 규칙은 해당 `principles/`, 도구 판정은 [tools/tool-radar.md](tools/tool-radar.md)에 넣고 PR을 올립니다. 공개 레포이므로 [AGENTS.md](AGENTS.md) 갱신 규칙과 금지 항목을 확인한 뒤 머지합니다.
 
 ## 해커톤 모드 (2박 3일 ~ 2주)
 

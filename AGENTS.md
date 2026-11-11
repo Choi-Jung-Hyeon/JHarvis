@@ -8,7 +8,7 @@
 - `templates/`는 **다른 레포에 복사해 줄 양식**이다. `templates/AGENTS.md`, `templates/CLAUDE.md`는 이 레포의 규칙이 아니다.
 - 루트 `.claude/settings.json`은 이 레포 전용(protect, push 훅만)이고 bootstrap 복사 대상이 아니다. 복사용은 `claude/settings.json`.
 - `claude/skills/<스킬>/` 원본은 SHA 고정한 외부 파일이라 고치지 않는다. 메모는 [claude/skills/README.md](claude/skills/README.md)에.
-- 무엇을 어디에 넣는지는 README의 "갱신 규칙"을 따른다.
+- 무엇을 어디에 넣는지는 아래 "갱신 규칙"을 따른다.
 
 ## 작업 흐름
 
@@ -19,8 +19,14 @@
 
 ## 기록
 
-- 판정 기록(`tools/tool-radar.md` 등)은 지우지 않고 날짜와 함께 덧붙인다(README 갱신 규칙).
+- 판정 기록(`tools/tool-radar.md` 등)은 지우지 않고 날짜와 함께 덧붙인다(아래 갱신 규칙).
 - 기존 규칙, 사례 문장은 임의로 바꾸지 않는다. 바꿔야 하면 PR 본문에 목록으로 올린다.
+
+## 갱신 규칙
+
+- 새 프로젝트에서 배운 것은 이 레포에 PR로 올린다. 사례는 `cases/`, 규칙은 해당 `principles/` 파일, 도구 판정은 `tools/tool-radar.md`.
+- 판정이 바뀌면 지우지 않고 날짜와 함께 덧붙인다(왜 바뀌었는지가 다음 판단의 근거다).
+- 개인정보, 비밀키, 팀원 평가, 실제 계좌나 수치는 올리지 않는다(공개 레포).
 
 ## 공개 레포 금지 항목
 
