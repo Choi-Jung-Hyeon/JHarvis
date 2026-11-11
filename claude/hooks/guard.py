@@ -2,12 +2,14 @@
 종료 코드 2만 도구 실행을 막는다(1은 알림만). 막은 이유는 stderr로 Claude에게 간다.
 
 - protect: .env 류(비밀키) 수정 금지. 템플릿 .env.example은 허용
+- push: 강제 push(--force, -f, --force-with-lease, +refspec) 금지. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
 - commit: git commit 전에 바뀐 영역의 빠른 검사만 돌린다. 느린 검사(전체 테스트, build)는 CI 필수 체크에 맡긴다
 
 새 프로젝트에서는 아래 CHECKS만 고친다: (바뀐 파일 조건, 명령, 실행 폴더)
 """
 import json
 import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -27,6 +29,24 @@ def protect(tool_input: dict) -> str | None:
     name = Path(tool_input.get("file_path", "")).name
     if re.fullmatch(r"\.env(\..+)?", name) and name != ".env.example":
         return f"{name}는 비밀키 파일이라 Claude가 고치지 않아요. 바꿀 값은 사람이 직접 넣어 주세요."
+    return None
+
+
+FORCE = re.compile(r"--force(-with-lease(=.*)?)?|-[a-zA-Z]*f[a-zA-Z]*|\+.+")
+
+
+def push(tool_input: dict) -> str | None:
+    # shortcut: 따옴표 안의 ; & | 도 명령 구분으로 본다(echo "a; git push -f"도 막힘). 막는 쪽으로만 틀리니 그대로 둔다
+    for part in re.split(r"[;&|\n]+", tool_input.get("command", "")):
+        try:
+            words = shlex.split(part)
+        except ValueError:
+            words = part.split()
+        if "git" not in words or "push" not in words[words.index("git"):]:
+            continue
+        args = words[words.index("push", words.index("git")) + 1:]
+        if any(FORCE.fullmatch(a) for a in args):
+            return "강제 push는 막아 둡니다. 원격 기록을 지울 수 있어요. 꼭 필요하면 사람이 직접 실행해 주세요."
     return None
 
 
@@ -50,7 +70,7 @@ def commit(tool_input: dict) -> str | None:
 
 if __name__ == "__main__":
     payload = json.load(sys.stdin)
-    reason = {"protect": protect, "commit": commit}[sys.argv[1]](payload.get("tool_input", {}))
+    reason = {"protect": protect, "push": push, "commit": commit}[sys.argv[1]](payload.get("tool_input", {}))
     if reason:
         print(reason, file=sys.stderr)
         sys.exit(2)
