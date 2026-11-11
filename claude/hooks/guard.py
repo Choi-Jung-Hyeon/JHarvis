@@ -2,7 +2,7 @@
 종료 코드 2만 도구 실행을 막는다(1은 알림만). 막은 이유는 stderr로 Claude에게 간다.
 
 - protect: .env 류(비밀키) 수정 금지. 템플릿 .env.example은 허용
-- push: 강제 push(--force, -f, --force-with-lease, +refspec) 금지. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
+- push: 강제 push(--force, -f, --force-with-lease, +refspec)와 원격 삭제 push(--delete, -d, :브랜치) 금지. bash -c, eval로 감싸도 본다. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
 - commit: git commit 전에 바뀐 영역의 빠른 검사만 돌린다. 느린 검사(전체 테스트, build)는 CI 필수 체크에 맡긴다
 
 새 프로젝트에서는 아래 CHECKS만 고친다: (바뀐 파일 조건, 명령, 실행 폴더)
@@ -33,20 +33,28 @@ def protect(tool_input: dict) -> str | None:
 
 
 FORCE = re.compile(r"--force(-with-lease(=.*)?)?|-[a-zA-Z]*f[a-zA-Z]*|\+.+")
+DELETE = re.compile(r"--delete|-[a-zA-Z]*d[a-zA-Z]*|:.+")
 
 
-def push(tool_input: dict) -> str | None:
+def push(tool_input: dict, depth: int = 0) -> str | None:
     # shortcut: 따옴표 안의 ; & | 도 명령 구분으로 본다(echo "a; git push -f"도 막힘). 막는 쪽으로만 틀리니 그대로 둔다
     for part in re.split(r"[;&|\n]+", tool_input.get("command", "")):
         try:
             words = shlex.split(part)
-        except ValueError:
-            words = part.split()
+        except ValueError:  # 위 분리로 따옴표가 끊긴 경우. 따옴표를 지우고 본다
+            words = re.sub(r"[\"']", " ", part).split()
+        # bash -c "...", eval "..." 처럼 감싼 명령은 공백 든 단어를 다시 검사한다
+        for word in words:
+            if depth < 3 and " " in word and (reason := push({"command": word}, depth + 1)):
+                return reason
         if "git" not in words or "push" not in words[words.index("git"):]:
             continue
         args = words[words.index("push", words.index("git")) + 1:]
         if any(FORCE.fullmatch(a) for a in args):
             return "강제 push는 막아 둡니다. 원격 기록을 지울 수 있어요. 꼭 필요하면 사람이 직접 실행해 주세요."
+        if any(DELETE.fullmatch(a) for a in args):
+            return ("원격 브랜치 삭제 push는 막아 둡니다. 머지 후 삭제는 gh pr merge --delete-branch로 하고, "
+                    "그 밖의 삭제는 사람이 직접 실행해 주세요.")
     return None
 
 
