@@ -15,6 +15,14 @@ class Guard(unittest.TestCase):
         self.assertTrue(guard.protect({"file_path": "/x/.env.local"}))
         self.assertIsNone(guard.protect({"file_path": "/x/.env.example"}))
 
+    def test_push_blocks_force_anywhere(self):
+        for command in ["git push origin feat --force", "git push -f origin feat",
+                        "git push origin feat --force-with-lease", "git push origin +feat",
+                        "git add -A && git -C repo push -uf origin feat"]:
+            self.assertTrue(guard.push({"command": command}), command)
+        for command in ["git push", "git push -u origin feat", "git push origin feat:feat"]:
+            self.assertIsNone(guard.push({"command": command}), command)
+
     def test_commit_checks_files_not_staged_yet(self):
         with tempfile.TemporaryDirectory() as folder:
             subprocess.run(["git", "init", "-q"], cwd=folder, check=True)

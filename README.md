@@ -55,7 +55,7 @@ bash ~/jharvis/scripts/bootstrap.sh --hackathon # 해커톤, 공모전처럼 짧
 - 판정이 바뀌면 지우지 않고 날짜와 함께 덧붙인다(왜 바뀌었는지가 다음 판단의 근거다).
 - 개인정보, 비밀키, 팀원 평가, 실제 계좌나 수치는 올리지 않는다(공개 레포).
 
-로컬 체크: `bash scripts/check.sh`(전부) 또는 `bash scripts/check.sh md test`(일부). PR마다 같은 체크가 CI로 돈다.
+로컬 체크: `bash scripts/check.sh`(전부) 또는 `bash scripts/check.sh md unit`(일부). PR마다 같은 체크가 CI로 돈다.
 없는 도구는 건너뛰고 끝에 알려 준다(shellcheck, actionlint, lychee, ruff, node).
 
 라이선스: 이 레포의 글과 스크립트는 MIT. `claude/skills/` 안의 스킬은 각 폴더의 원본 라이선스를 따른다.
