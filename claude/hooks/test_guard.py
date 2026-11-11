@@ -15,6 +15,12 @@ class Guard(unittest.TestCase):
         self.assertTrue(guard.protect({"file_path": "/x/.env.local"}))
         self.assertIsNone(guard.protect({"file_path": "/x/.env.example"}))
 
+    def test_protect_read(self):
+        for path in ["/x/.env", "/x/.env.local", "/x/.env.production", "/x/sub/.env.test"]:
+            self.assertIn("읽지", guard.protect({"file_path": path}, "Read") or "", path)
+        for path in ["/x/.env.example", "/x/envnote.txt"]:
+            self.assertIsNone(guard.protect({"file_path": path}, "Read"), path)
+
     def test_push_blocks_force_anywhere(self):
         for command in ["git push origin feat --force", "git push -f origin feat",
                         "git push origin feat --force-with-lease", "git push origin +feat",

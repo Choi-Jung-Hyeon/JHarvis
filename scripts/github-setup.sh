@@ -55,8 +55,9 @@ if [ "$PUBLIC" = 1 ]; then
   # 새 레포에 아직 코드가 없으면 실패할 수 있다. 첫 push 뒤 다시 돌리면 된다
   step "Code scanning 기본 설정(CodeQL)" "$(gh api "$R/code-scanning/default-setup" --jq .state 2>/dev/null || echo 알수없음)" configured \
     gh api -X PATCH "$R/code-scanning/default-setup" -f state=configured
-  rules=$(gh api "$R/rules/branches/$BRANCH" --jq length 2>/dev/null || echo 0)
-  if [ "$rules" != 0 ]; then row "$BRANCH Ruleset" "규칙 ${rules}개" "그대로(건드리지 않음)"
+  read -r rules checks < <(gh api "$R/rules/branches/$BRANCH" \
+    --jq '"\(length) \(map(select(.type == "required_status_checks")) | length)"' 2>/dev/null || echo "0 0")
+  if [ "${rules:-0}" != 0 ]; then row "$BRANCH Ruleset" "규칙 ${rules}개" "그대로(건드리지 않음)"
   else
     body=$(mktemp); trap 'rm -f "$body"' EXIT
     printf '%s' '{"name":"기본 브랜치 보호","target":"branch","enforcement":"active",
@@ -64,7 +65,7 @@ if [ "$PUBLIC" = 1 ]; then
       "rules":[{"type":"deletion"},{"type":"non_fast_forward"}]}' > "$body"
     step "$BRANCH Ruleset" "없음" "삭제·강제 push 차단" gh api -X POST "$R/rulesets" --input "$body"
   fi
-  HUMAN+=("필수 체크: 첫 CI가 돈 뒤 Settings → Rules → Rulesets → 기본 브랜치 규칙 → Require status checks to pass → 잡 이름 추가 → Save")
+  [ "${checks:-0}" = 0 ] && HUMAN+=("필수 체크: 첫 CI가 돈 뒤 Settings → Rules → Rulesets → 기본 브랜치 규칙 → Require status checks to pass → 잡 이름 추가 → Save")
 else
   row "비공개 취약점 신고" "-" "건너뜀(공개 레포만 지원)"
   for item in "Secret scanning" "Push protection" "Code scanning 기본 설정(CodeQL)" "$BRANCH Ruleset"; do row "$item" "-" "건너뜀(유료)"; done
@@ -74,7 +75,9 @@ row "AI Scan" "-" "켜지 않음(유료: Advanced Security 필요)"
 row "Secret scanning 일반 패턴, 유효성 검사" "-" "건드리지 않음(무료 여부 확인 필요)"
 
 if [ "$PUBLIC" = 1 ]; then
-  missing=$(gh api "$R/community/profile" --jq '.files | to_entries | map(select(.value == null) | .key) | join(", ")' 2>/dev/null)
+  # issue_template은 ISSUE_TEMPLATE/ 폴더가 있어도 null로 온다(#11 확인). 폴더는 contents API로 따로 본다
+  missing=$(gh api "$R/community/profile" --jq '.files | to_entries | map(select(.value == null and .key != "issue_template") | .key) | join(", ")' 2>/dev/null)
+  if ! gh api "$R/contents/.github/ISSUE_TEMPLATE" --silent 2>/dev/null; then missing="${missing:+$missing, }issue_template"; fi
   [ -n "$missing" ] && HUMAN+=("커뮤니티 파일 없음($missing): bootstrap.sh로 넣고 커밋, push")
   if [ "$OWNER" = Organization ]; then
     HUMAN+=("콘텐츠 신고 허용(API 없음): Settings → Moderation options → Reported content → Prior contributors and collaborators → Save")

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # github-setup.sh 테스트. 가짜 gh(PATH 맨 앞 스텁)로 미리보기, 공개, 비공개, 다시 실행을 본다. 실행: bash tests/github-setup.sh
-# 스텁은 --jq를 실제로 돌리지 않고 그 결과 모양을 바로 출력한다. STUB_VIS=public|private, STUB_ON=1이면 이미 다 켜진 레포
+# 스텁은 --jq를 실제로 돌리지 않고 그 결과 모양을 바로 출력한다. STUB_VIS=public|private, STUB_ON=1이면 이미 다 켜진 레포,
+# STUB_RULES="<규칙 수> <필수 체크 수>"로 기본 브랜치 규칙을 바꾼다
 set -euo pipefail
 SETUP="$(cd "$(dirname "$0")/.." && pwd)/scripts/github-setup.sh"
 BIN="$(mktemp -d)"; LOG="$BIN/calls"; export LOG
@@ -15,11 +16,12 @@ case "$*" in
   *vulnerability-alerts*) [ "$on" = 1 ] ;;
   *automated-security-fixes*|*private-vulnerability-reporting*) [ "$on" = 1 ] && echo true || echo false ;;
   *default-setup*) [ "$on" = 1 ] && echo configured || echo not-configured ;;
-  *rules/branches*) [ "$on" = 1 ] && echo 2 || echo 0 ;;
+  *rules/branches*) [ "$on" = 1 ] && echo "${STUB_RULES:-2 1}" || echo "0 0" ;;
+  *contents/.github/ISSUE_TEMPLATE*) [ "$on" = 1 ] ;;
   *community/profile*) [ "$on" = 1 ] || echo "code_of_conduct, contributing" ;;
   "api repos/{owner}/{repo} --jq"*)
     s=disabled; [ "$on" = 1 ] && s=enabled
-    printf '%s\x1f%s\x1f%s\x1f%s\x1f%s\x1f%s\x1f%s\n' o/r "$STUB_VIS" User main "$s" "$s" "" ;;
+    printf '%s\x1f%s\x1f%s\x1f%s\x1f%s\x1f%s\x1f%s\n' o/r "$STUB_VIS" User main "$s" "$s" "$([ "$on" = 1 ] && echo 설명)" ;;
   *) echo "스텁이 모르는 호출: $*" >&2; exit 9 ;;
 esac
 STUB
@@ -34,7 +36,7 @@ says()   { grep -qF -- "$1" <<<"$OUT" || { echo "  출력에 없음: $1"; FAIL=1
 echo "미리보기: 아무것도 바꾸지 않는다"
 export STUB_VIS=public STUB_ON=0; CODE=0; run
 [ "$(writes)" = 0 ] || { echo "  미리보기가 바꿈"; FAIL=1; }
-says "enabled 예정"; says "Description | 비어 있음 | 건너뜀(--description 필요)"; says "커뮤니티 파일 없음(code_of_conduct, contributing)"
+says "enabled 예정"; says "Description | 비어 있음 | 건너뜀(--description 필요)"; says "커뮤니티 파일 없음(code_of_conduct, contributing, issue_template)"; says "필수 체크"
 
 echo "공개 레포 --apply"
 CODE=0; run --apply --description "설명"
@@ -55,6 +57,11 @@ echo "이미 다 켜진 공개 레포 --apply: 다시 돌려도 바꾸는 호출
 export STUB_VIS=public STUB_ON=1; CODE=0; run --apply
 [ "$(writes)" = 0 ] || { echo "  바꾸는 호출 $(writes)개"; FAIL=1; }
 says "main Ruleset | 규칙 2개 | 그대로(건드리지 않음)"
+! grep -qF "사람이 할 일" <<<"$OUT" || { echo "  다 켜졌는데 사람이 할 일이 나옴"; FAIL=1; }
+
+echo "규칙은 있는데 필수 체크가 없으면 안내"
+STUB_RULES="3 0" run
+says "필수 체크: 첫 CI가 돈 뒤"; ! grep -qF "커뮤니티 파일 없음" <<<"$OUT" || { echo "  이슈 양식 오탐"; FAIL=1; }
 
 echo "모르는 옵션은 실패"
 CODE=0; run --nope; [ "$CODE" = 2 ] || { echo "  --nope 종료 코드 $CODE"; FAIL=1; }

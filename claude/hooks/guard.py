@@ -1,7 +1,7 @@
 """Claude Code 훅. CLAUDE.md, AGENTS.md는 '부탁'이라 어길 수 있어, 되돌리기 힘든 규칙 두 개만 훅으로 막는다.
 종료 코드 2만 도구 실행을 막는다(1은 알림만). 막은 이유는 stderr로 Claude에게 간다.
 
-- protect: .env 류(비밀키) 수정 금지. 템플릿 .env.example은 허용
+- protect: .env 류(비밀키) 읽기, 수정 금지. 템플릿 .env.example은 허용(권한 deny glob으로는 이 예외를 못 만든다, #10)
 - push: 강제 push(--force, -f, --force-with-lease, +refspec)와 원격 삭제 push(--delete, -d, :브랜치) 금지. bash -c, eval로 감싼 실행 자리도 본다. 커밋 메시지, echo 안 글자는 보지 않는다. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
 - commit: git commit 전에 바뀐 영역의 빠른 검사만 돌린다. 느린 검사(전체 테스트, build)는 CI 필수 체크에 맡긴다
 
@@ -25,11 +25,13 @@ CHECKS = [
 ]
 
 
-def protect(tool_input: dict) -> str | None:
+def protect(tool_input: dict, tool_name: str = "") -> str | None:
     name = Path(tool_input.get("file_path", "")).name
-    if re.fullmatch(r"\.env(\..+)?", name) and name != ".env.example":
-        return f"{name}는 비밀키 파일이라 Claude가 고치지 않아요. 바꿀 값은 사람이 직접 넣어 주세요."
-    return None
+    if not re.fullmatch(r"\.env(\..+)?", name) or name == ".env.example":
+        return None
+    if tool_name == "Read":
+        return f"{name}는 비밀키 파일이라 Claude가 읽지 않아요. 필요한 변수 이름은 .env.example에 적어 주세요."
+    return f"{name}는 비밀키 파일이라 Claude가 고치지 않아요. 바꿀 값은 사람이 직접 넣어 주세요."
 
 
 FORCE = re.compile(r"--force(-with-lease(=.*)?)?|-[a-zA-Z]*f[a-zA-Z]*|\+.+")
@@ -108,7 +110,11 @@ def commit(tool_input: dict) -> str | None:
 
 if __name__ == "__main__":
     payload = json.load(sys.stdin)
-    reason = {"protect": protect, "push": push, "commit": commit}[sys.argv[1]](payload.get("tool_input", {}))
+    check, tool_input = sys.argv[1], payload.get("tool_input", {})
+    if check == "protect":
+        reason = protect(tool_input, payload.get("tool_name", ""))
+    else:
+        reason = {"push": push, "commit": commit}[check](tool_input)
     if reason:
         print(reason, file=sys.stderr)
         sys.exit(2)
