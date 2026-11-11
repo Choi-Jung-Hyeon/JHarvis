@@ -18,10 +18,18 @@ class Guard(unittest.TestCase):
     def test_push_blocks_force_anywhere(self):
         for command in ["git push origin feat --force", "git push -f origin feat",
                         "git push origin feat --force-with-lease", "git push origin +feat",
-                        "git add -A && git -C repo push -uf origin feat"]:
+                        "git add -A && git -C repo push -uf origin feat",
+                        "bash -c \"git push -f origin feat\"", "sh -c 'git push origin +feat'",
+                        "eval \"git push --force origin feat\""]:
             self.assertTrue(guard.push({"command": command}), command)
-        for command in ["git push", "git push -u origin feat", "git push origin feat:feat"]:
+        for command in ["git push", "git push -u origin feat", "git push origin feat:feat",
+                        "echo 'git push 하세요'"]:
             self.assertIsNone(guard.push({"command": command}), command)
+
+    def test_push_blocks_remote_delete(self):
+        for command in ["git push origin --delete feat", "git push origin :feat", "git push -d origin feat"]:
+            reason = guard.push({"command": command})
+            self.assertIn("삭제", reason or "", command)
 
     def test_commit_checks_files_not_staged_yet(self):
         with tempfile.TemporaryDirectory() as folder:

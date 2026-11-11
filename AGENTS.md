@@ -6,6 +6,7 @@
 ## 구분
 
 - `templates/`는 **다른 레포에 복사해 줄 양식**이다. `templates/AGENTS.md`, `templates/CLAUDE.md`는 이 레포의 규칙이 아니다.
+- 루트 `.claude/settings.json`은 이 레포 전용(protect, push 훅만)이고 bootstrap 복사 대상이 아니다. 복사용은 `claude/settings.json`.
 - `claude/skills/<스킬>/` 원본은 SHA 고정한 외부 파일이라 고치지 않는다. 메모는 [claude/skills/README.md](claude/skills/README.md)에.
 - 무엇을 어디에 넣는지는 README의 "갱신 규칙"을 따른다.
 
