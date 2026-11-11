@@ -2,7 +2,7 @@
 종료 코드 2만 도구 실행을 막는다(1은 알림만). 막은 이유는 stderr로 Claude에게 간다.
 
 - protect: .env 류(비밀키) 수정 금지. 템플릿 .env.example은 허용
-- push: 강제 push(--force, -f, --force-with-lease, +refspec)와 원격 삭제 push(--delete, -d, :브랜치) 금지. bash -c, eval로 감싸도 본다. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
+- push: 강제 push(--force, -f, --force-with-lease, +refspec)와 원격 삭제 push(--delete, -d, :브랜치) 금지. bash -c, eval로 감싼 실행 자리도 본다. 커밋 메시지, echo 안 글자는 보지 않는다. main은 Ruleset이 막지만 다른 브랜치는 뚫려 있다
 - commit: git commit 전에 바뀐 영역의 빠른 검사만 돌린다. 느린 검사(전체 테스트, build)는 CI 필수 체크에 맡긴다
 
 새 프로젝트에서는 아래 CHECKS만 고친다: (바뀐 파일 조건, 명령, 실행 폴더)
@@ -36,16 +36,46 @@ FORCE = re.compile(r"--force(-with-lease(=.*)?)?|-[a-zA-Z]*f[a-zA-Z]*|\+.+")
 DELETE = re.compile(r"--delete|-[a-zA-Z]*d[a-zA-Z]*|:.+")
 
 
+SHELLS = {"bash", "sh", "zsh", "dash"}
+
+
+def commands(text: str) -> list[list[str]]:
+    """셸 명령 줄을 ; & | 줄바꿈으로 나눈 단어 목록들. 따옴표 안 글자는 나누지 않는다."""
+    lexer = shlex.shlex(text, posix=True, punctuation_chars=";&|\n")
+    lexer.whitespace, lexer.whitespace_split = " \t\r", True
+    try:
+        words = list(lexer)
+    except ValueError:  # 따옴표가 안 닫힘. 따옴표를 지우고 본다(막는 쪽으로 틀린다)
+        words = re.sub(r"[\"']", " ", re.sub(r"[;&|\n]", " ; ", text)).split()
+    out = [[]]
+    for word in words:
+        if set(word) <= set(";&|\n"):
+            out.append([])
+        else:
+            out[-1].append(word)
+    return [c for c in out if c]
+
+
+def inner(words: list[str]) -> list[str]:
+    """셸이 실행할 문자열만 고른다: bash -c "..."(-lc 등 c가 든 짧은 옵션의 다음 인자), eval 뒤 인자."""
+    found = []
+    for i, word in enumerate(words):
+        if word == "eval":
+            found.append(" ".join(words[i + 1:]))
+        elif Path(word).name in SHELLS:
+            for j in range(i + 1, len(words) - 1):
+                if not words[j].startswith("-") or words[j].startswith("--"):
+                    break
+                if "c" in words[j]:
+                    found.append(words[j + 1])
+                    break
+    return found
+
+
 def push(tool_input: dict, depth: int = 0) -> str | None:
-    # shortcut: 따옴표 안의 ; & | 도 명령 구분으로 본다(echo "a; git push -f"도 막힘). 막는 쪽으로만 틀리니 그대로 둔다
-    for part in re.split(r"[;&|\n]+", tool_input.get("command", "")):
-        try:
-            words = shlex.split(part)
-        except ValueError:  # 위 분리로 따옴표가 끊긴 경우. 따옴표를 지우고 본다
-            words = re.sub(r"[\"']", " ", part).split()
-        # bash -c "...", eval "..." 처럼 감싼 명령은 공백 든 단어를 다시 검사한다
-        for word in words:
-            if depth < 3 and " " in word and (reason := push({"command": word}, depth + 1)):
+    for words in commands(tool_input.get("command", "")):
+        for text in inner(words) if depth < 3 else []:
+            if reason := push({"command": text}, depth + 1):
                 return reason
         if "git" not in words or "push" not in words[words.index("git"):]:
             continue

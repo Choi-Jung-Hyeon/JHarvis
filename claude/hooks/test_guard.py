@@ -20,10 +20,13 @@ class Guard(unittest.TestCase):
                         "git push origin feat --force-with-lease", "git push origin +feat",
                         "git add -A && git -C repo push -uf origin feat",
                         "bash -c \"git push -f origin feat\"", "sh -c 'git push origin +feat'",
-                        "eval \"git push --force origin feat\""]:
+                        "eval \"git push --force origin feat\"", "zsh -c 'git push -f origin feat'",
+                        "bash -lc \"cd x && git push origin --force\"", "git status\ngit push -f origin feat"]:
             self.assertTrue(guard.push({"command": command}), command)
         for command in ["git push", "git push -u origin feat", "git push origin feat:feat",
-                        "echo 'git push 하세요'"]:
+                        "echo 'git push 하세요'", 'git commit -m "docs: git push -f 막는 규칙 추가"',
+                        'gh pr create --body "git push --force ...\n막는다; 끝"', 'grep -n "git push -d" README.md',
+                        'echo "git push -f 는 금지"']:
             self.assertIsNone(guard.push({"command": command}), command)
 
     def test_push_blocks_remote_delete(self):
