@@ -5,7 +5,6 @@
       "Bash(git checkout:*)"
     ],
     "ask": [
-      "Bash(gh api:*)",
       "Bash(git push:*)"
     ],
     "deny": [
