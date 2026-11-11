@@ -22,6 +22,7 @@ links()   { need lychee && run lychee --offline --no-progress README.md START.md
 py()      { need ruff && run ruff check .; }
 unit()    {
   run bash tests/bootstrap.sh
+  run bash tests/github-setup.sh
   run python3 claude/hooks/test_guard.py
   run python3 templates/github/scripts/test_free_tier_watch.py
 }

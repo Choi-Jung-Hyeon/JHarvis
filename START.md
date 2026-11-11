@@ -22,10 +22,15 @@ bootstrap이 하는 일(이미 있는 파일은 덮어쓰지 않고 `.playbook-n
 - `.claude/settings.json`, `.claude/hooks/guard.py`(비밀키 파일 수정 차단, 커밋 전 빠른 검사)
 - `.claude/skills/`(검토하고 SHA를 고정한 디자인 스킬, 화면이 있을 때만)
 - `.github/pull_request_template.md`, 이슈 양식
+- `.github/CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `ACCESSIBILITY.md`(화면이 있을 때), 루트 `LICENSE`(MIT, 연도와 `git config user.name`으로 채움)
 - `.github/workflows/`: 기본은 python-ci, web-ci, free-tier-watch(+ 스크립트, Dependabot), 해커톤은 CI 하나(화면이 있으면 web-ci). 맨 위 `env`에서 폴더 이름과 기준을 맞춘다
 - `docs/ops/free-tier-budget.md`, `docs/security/audit-template.md`, `docs/research/` 양식 5종, `lib/copy-*.mjs` 문구 검사(해커톤 모드에서는 생략)
 
 옵션: `--hackathon` 짧은 프로젝트, `--no-ui` 화면이 없는 프로젝트(DESIGN.md, 스킬, web-ci, 문구 검사 생략).
+
+새 레포 시작 순서: `bootstrap.sh` → 커밋하고 GitHub에 push → `bash ~/jharvis/scripts/github-setup.sh`로 미리보기 후 `--apply`(설명이 비어 있으면 `--description "…"`).
+첫 CI가 돈 뒤 Ruleset에 필수 체크(CI 잡 이름)를 사람이 추가한다. 경로는 스크립트 끝 "사람이 할 일"에 나온다.
+GitHub 설정은 공개 레포에서만 전부 무료이고, 비공개 레포에서는 유료 항목을 건너뛴다.
 
 ## 2. 채팅 Claude 프로젝트 만들기
 
