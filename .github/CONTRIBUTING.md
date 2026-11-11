@@ -3,5 +3,7 @@
 1. 먼저 이슈로 알려 주세요. 버그와 작업 양식이 있습니다.
 2. 새 브랜치에서 작업합니다(`feat/`, `fix/`, `docs/`, `chore/`). main에 직접 push하지 않습니다.
 3. PR을 올리면 CI가 돕니다. 필수 체크가 모두 통과하면 squash 머지합니다.
+   로컬 체크: `bash scripts/check.sh`(전부) 또는 `bash scripts/check.sh md unit`(일부). PR마다 같은 체크가 CI로 돈다.
+   없는 도구는 건너뛰고 끝에 알려 준다(shellcheck, actionlint, lychee, ruff, node).
 4. 비밀키, 개인정보는 커밋하지 않습니다. 보안 문제는 공개 이슈 대신 [보안 정책](SECURITY.md)을 따라 알려 주세요.
 5. 모든 참여자는 [행동 강령](CODE_OF_CONDUCT.md)을 따릅니다.
