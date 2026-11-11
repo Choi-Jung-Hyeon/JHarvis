@@ -22,6 +22,7 @@
 | [ui-skills](https://github.com/ibelick/ui-skills) `baseline-ui`, `fixing-motion-performance` (MIT) | 웹 화면 | 채택(SHA 고정) | 간격, 위계, 빈 상태, 모션 점검 | 09-26 |
 | [web-interface-guidelines](https://github.com/vercel-labs/web-interface-guidelines) (MIT), 스킬판 web-design-guidelines | 웹 화면 | 규칙만 적용 | 원문으로 한 번 점검(`theme-color`, `touch-action` 등). 스킬은 실행마다 원격 규칙을 받아 SHA 고정과 안 맞음 | 10-09 |
 | Dependabot, CodeQL 기본, GitHub Rulesets | 공통 | 사용 | 공개 레포 무료 기능. 필수 체크로 머지 막기 | 10-09 |
+| GitHub Community Standards 파일 + `scripts/github-setup.sh` | 공통 | 채택 | 새 레포 첫날: bootstrap이 행동 강령(Contributor Covenant 2.1), 기여 안내, 보안 정책, LICENSE를 넣고, github-setup.sh가 Dependabot alerts, security updates, 비공개 취약점 신고, secret scanning, push protection, CodeQL 기본, 기본 브랜치 Ruleset을 켠다. 공개 레포만 전부 무료, 비공개는 유료 항목을 건너뜀 | 11-11 |
 | 검색 노출 기본(robots, sitemap, 페이지별 메타, 서치 콘솔) | 웹 화면 | 채택 | 프레임워크 기본 기능으로. 검색 도구 소유 확인은 사람이 | 10-13 |
 | 웹 출시 전 점검("출시 전 20가지" 중 개인정보 처리방침, 맞춤 404, OG 이미지) | 웹 화면 | 채택 | 가입을 받으면 개인정보 처리방침 필수 | 10-26 |
 | BentoPDF | 문서·발표 | 개인 도구 | 보고서 PDF 합치기, 줄이기(브라우저 안에서 처리) | 10-26 |
@@ -95,6 +96,7 @@
 |---|---|---|
 | ui-ux-pro-max-skill | 스타일 고르는 도구, 방향은 이미 정함(6) | 10-20 |
 | caveman, caveman-compress, cavecrew | 실제 절감 효과 작음, 간결 출력 스타일로 충분(6) | 10-15 |
+| GitHub Code Quality, Code scanning AI Scan | 커미터당 라이선스, AI 크레딧(Code Quality), Advanced Security 필요(AI Scan)(1). github-setup.sh가 켜지 않는다 | 11-11 |
 | [hallmark](https://github.com/nutlope/hallmark) | 게이트가 길어 토큰 부담(3, 6) | 10-09 |
 | Ruflo(옛 Claude Flow), ECC, Cindy, Orca, "육칠" 병렬 에이전트 | 에이전트 군집, 하네스 교체로 토큰 몇 배(2, 3) | 10-26 |
 | Graphify, Graft(Trail-code), Codebase Memory MCP, Agency Agents | 색인, 메모리 관리 부담, 첫 실행에 지난 대화를 읽어 사용량(2, 3) | 10-27 |

@@ -30,9 +30,21 @@ put claude/hooks/guard.py .claude/hooks/guard.py
 put templates/github/pull_request_template.md .github/pull_request_template.md
 put templates/github/ISSUE_TEMPLATE/task.md .github/ISSUE_TEMPLATE/task.md
 put templates/github/ISSUE_TEMPLATE/bug.md .github/ISSUE_TEMPLATE/bug.md
+# GitHub Community Standards 체크리스트 파일. 레포 설정(보안, Ruleset)은 scripts/github-setup.sh 몫이다
+for f in CODE_OF_CONDUCT.md CONTRIBUTING.md SECURITY.md; do put "templates/github/$f" ".github/$f"; done
+put templates/github/LICENSE LICENSE
+# 방금 넣은 LICENSE의 <연도>, <이름>을 채운다. 이름이 없으면 자리표시자를 남기고 알린다
+name="$(git config user.name || true)"
+for f in LICENSE LICENSE.playbook-new; do
+  grep -qF '<이름>' "$f" 2>/dev/null || continue
+  if [ -z "$name" ]; then echo "확인 → $f의 <연도>, <이름>을 직접 채우세요(git config user.name 없음)"; continue; fi
+  esc="$(printf '%s' "$name" | sed 's/[|&\\]/\\&/g')"
+  sed "s|<연도>|$(date +%Y)|; s|<이름>|$esc|" "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+done
 
 if [ "$UI" = 1 ]; then
   put templates/DESIGN.md DESIGN.md
+  put templates/github/ACCESSIBILITY.md .github/ACCESSIBILITY.md
   if [ "$HACK" = 1 ]; then
     copy_skill frontend-design
   else
