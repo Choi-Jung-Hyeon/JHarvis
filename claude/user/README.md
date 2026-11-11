@@ -30,7 +30,7 @@
 | `alwaysThinkingEnabled` | `true` | 판단이 많은 작업이 대부분이라 |
 | `autoCompactEnabled` | `true` | 긴 작업이 끊기지 않게 |
 | `permissions.allow` | `git stash`, `git checkout` | 자주 쓰는 로컬 명령만 |
-| `permissions.ask` | `gh api`, `git push` | 밖으로 나가는 명령은 매번 묻는다 |
+| `permissions.ask` | `git push` | 밖으로 나가는 push는 매번 묻는다. `gh api`는 확인 창이 너무 잦아 뺐다(2026-11-11) |
 | `permissions.deny` | `git push --force`, `git push -f` | 강제 push 금지. main 보호는 GitHub Rulesets가 함께 맡는다 |
 | 알림 | `iterm2` 채널, 입력 대기와 에이전트 알림 켬 | 터미널에 맞게 바꾼다 |
 
