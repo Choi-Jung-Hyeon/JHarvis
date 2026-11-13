@@ -63,6 +63,7 @@
 | Stirling-PDF, MinerU | 문서·발표 | PDF 작업은 BentoPDF로 충분, 설치가 필요한 이 둘은 꼭 필요할 때만 | 10-26 |
 | 회의 녹음 요약 서비스 | 문서·발표 | 발표, 회의 녹음을 "아이디어 회의" 형식으로 요약해 링크 공유. 개인 선택 | 06-20, PB |
 | 다중 호출 투표 하네스(자작) | LLM 앱 | LLM 판정 흔들림 관측용. 호출 수가 3배라 표본에만, 공식 지표에 섞지 않음 | 08-06, PB |
+| `skill-creator`(Anthropic 공식 스킬, Apache-2.0) | 공통 | 같은 설명을 세 번째 반복하게 된 작업을 스킬로 만들 때. Claude Code 세션에 이미 들어 있어 설치하지 않는다 | 11-13 |
 
 ## 아이디어만 (설치하지 않음)
 
@@ -91,6 +92,10 @@
 | View Transitions(브라우저 기본) | 목록 카드에서 상세로 넘어가는 모션 후보. 모션 규칙을 바꾸는 결정이라 사람이 정한다 | 10-06 |
 | "로그 계획 + 하루 한 번 로그 검토" 프롬프트 두 줄 | 로그는 사용자가 겪은 일, 내부 동작, 보이는 결과를 다시 따라갈 수 있을 만큼 남긴다. 매일 예약 실행은 하지 않고, 로그가 쌓이는 프로젝트에서 필요할 때 한 번 돌린다 | 11-13 |
 | [Astryx](https://github.com/meta/astryx) (MIT, 베타) | 새 웹 프로젝트를 React 19로 시작하고 디자인 방향이 아직 없을 때 후보. 이미 토큰을 정한 프로젝트에는 넣지 않는다 | 11-13 |
+| [elephant-goldfish-model](https://github.com/google/elephant-goldfish-model) (Apache-2.0) | 설계 문서는 대화를 모르는 새 세션에 문서만 주고 빈틈을 찾게 한다. 문서와 코드가 어긋난 곳을 따로 보고받는다. 플러그인은 검토자 서브에이전트를 여럿 띄워 설치하지 않음 | 11-13 |
+| [shadcn/improve](https://github.com/shadcn/improve) (MIT) | 계획서마다 레포의 실제 검사 명령과 "멈출 조건"을 적는다. 기각한 지적은 이유와 함께 남겨 다음에 다시 올라오지 않게 한다(판정 기록과 같은 방식) | 11-13 |
+| [stack-diagram](https://github.com/caru-ini/stack-diagram) (MIT) | 발표 자료에 로고가 든 구조도가 필요할 때 후보. 평소는 mermaid. 쓰게 되면 공개 갤러리 게시 제안은 거절한다 | 11-13 |
+| [Components of agent memory](https://anthropic.com/research/components-of-agent-memory) (Anthropic 연구) | 여러 작업이 같이 쓰는 기록은 대상별로 페이지를 나눈다. 무엇을 남길지 고정 규칙으로 좁히면 효과가 줄 수 있다 | 11-13 |
 
 ## 기각
 
@@ -142,6 +147,11 @@
 | 메인 데모를 Streamlit으로 전환 | 이미 있는 대시보드 화면을 버리게 됨(6) | 08-31, PB |
 | 설정 파일 없는 포매터 일괄 실행 | 무관한 파일 대량 변경. 프롬프트 Constraints에 금지로 둔다(2) | 09-09, PB |
 | 로컬 thinking 모델 변형 | 도구 호출 무한 루프(7) | 07-07, PB |
+| cjk-token-reducer, pxpipe, claude-token-efficient | 프롬프트를 외부 번역 API로 보냄, 요청을 고쳐 쓰는 로컬 프록시, CLAUDE.md 한 장은 ponytail과 겹침(2, 6, 7) | 11-13 |
+| Scrapling, last30days-skill | 봇 차단 우회 수집, 여러 SNS 수집에 CLI 여럿 설치와 일부 유료 키(1, 2, 6, 7) | 11-13 |
+| Basic Memory, SilverBullet, Docmost | AGPL 또는 서버 운영, 클라우드판 유료. 내장 메모리와 겹침(1, 2, 4, 6) | 11-13 |
+| Herdr, Atuin Threads | 에이전트가 에이전트를 띄우는 상시 서버, 세션 기록 동기화. Claude Code 하나만 쓴다(2, 3, 6) | 11-13 |
+| Codex Security, Gemini Decision 1 API, AWS Emulator, marketingskills | 별도 모델 키나 종량 과금, 내장 `/security-review`와 겹침, 스택에 없음, 용도 없음(1, 6) | 11-13 |
 
 ## 데이터 공급원 (졸업작품 기준, 한국 주식)
 
@@ -191,6 +201,7 @@
 | LiteLLM 1.107.0 변조 | 확인만: 요구 파일과 로컬 환경 어디에도 없음 | 10-26 |
 | Tailworm(Tailscale SSH 결함) | 확인만: 스택에 없음. 개인 PC에서 쓴다면 SSH 규칙을 기기 쌍 단위로 좁힌다 | 10-27 |
 | OpenSSH 비밀번호 인증 우회(Alpine, musl, PAM 없는 sshd, 10.6p2에서 수정) | 확인만: 개발 PC는 Ubuntu(glibc)이고 sshd가 꺼져 있다. 레포에 Alpine 이미지가 없다. Alpine 컨테이너에서 sshd를 켜게 되면 `PasswordAuthentication no` | 11-06 |
+| Fireworks AI 침해([Notion 안내](https://notion.com/help/security-incident-involving-a-third-party-ai-vendor)) | **사람이 확인**: Notion을 쓴다. Notion 안내로는 워크스페이스 1% 미만, Notion AI 대화 일부가 대상이고 해당 워크스페이스 소유자에게 연락했다. 연락이나 사이드바의 "Security incident review" 페이지가 없으면 대상이 아니다. Notion AI 대화에 비밀번호나 키를 넣은 적이 있으면 교체한다. 레포 코드와 의존성에는 Fireworks가 없다 | 11-13 |
 
 ## 스크랩 판정 기록
 
@@ -251,3 +262,45 @@ Astryx는 GitHub API와 README, LICENSE, `packages/core/package.json` 원문으�
 | "매일 발전하는 클로드, 프롬프트 두 줄"(X 글 소개, "댓글 남기면 DM") | 아이디어만 | 댓글 유도형 글이고 X 원문은 찾지 못해 프롬프트 두 줄과 좋아요 수는 미확인이다(5). 매일 예약 실행은 구독 사용량을 매일 쓰고(3), 고칠 점을 모으는 일은 "사고 → 규칙 한 줄"과 겹친다(6). 가져올 생각: 로그는 사용자가 겪은 일, 내부 동작, 보이는 결과를 다시 따라갈 수 있을 만큼 남긴다 |
 | Claude Code 예약 작업(클라우드, 데스크톱, `/loop`) | 확인만 | 스크랩 설명은 공식 문서와 맞다. 클라우드는 레포를 새로 받아 로컬 파일을 못 읽고 컴퓨터가 꺼져도 돈다(최소 1시간 간격). 데스크톱은 로컬 파일을 읽지만 앱이 켜져 있고 컴퓨터가 깨어 있을 때만 돈다. 클라우드 실행은 구독 사용량에서 차감되고, 오토 모드로 시작해 `claude/` 브랜치에 push한다. 쓰게 되면 "push는 묻는다"와 맞는지, 기본 브랜치 Ruleset이 켜져 있는지 먼저 본다(3, 7) |
 | [Astryx](https://github.com/meta/astryx) (MIT) | 아이디어만(새 웹 프로젝트 후보) | 실체와 라이선스는 확인했다. README도 8년, 앱 13,000개 이상이라고 적는다. 다만 README의 부품 수는 150개 이상이고(스크랩은 180개 이상), 베타(v0.7.14, 11-11)이며 React 19 이상과 StyleX가 피어 의존성이다. 첫 릴리스 태그는 06-26이라 새로 풀린 것이 아니고, 트렌딩 순위는 미확인이다. [DESIGN 템플릿](../templates/DESIGN.md)이 새 UI 라이브러리 추가를 금지하므로 기존 프로젝트에는 넣지 않는다(6). "댓글 남기면 DM"은 미끼다(5) |
+
+### 2026-11-13 (2차)
+
+스크랩 23건입니다. 레포는 GitHub API와 README, LICENSE, 스킬 파일 머리말로, 공식 발표는 웹 검색에 나온 공식 페이지 요약으로 확인했습니다(원문을 직접 열어 읽지는 않았습니다). 아무것도 설치하거나 실행해 보지 않았습니다. 별 수와 설치 수는 판단 근거로 쓰지 않습니다.
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| [Components of agent memory](https://anthropic.com/research/components-of-agent-memory) (Anthropic 연구, 11-06) | 아이디어만 | 도구가 아니다. Opus 5.5 평균 보상 0.655 → 0.838은 여러 요약 기사와 맞다. 나머지 수치(0.234, 57개 중 41개)는 미확인이다. 가져올 생각: 여러 작업이 같이 쓰는 기록은 대상별로 페이지를 나눈다. 표본이 작은 탐색 연구라 규칙은 바꾸지 않는다 |
+| "클로드 스킬 16개 티어표" | 구성 도구를 각각 판정 | 점수는 글쓴이의 과제 기준이라 미확인이다. claude-mem(기각, 11-06), andrej-karpathy-skills(아이디어만, 10-21), ui-ux-pro-max(기각, 10-20), taste-skill(2종 채택, 10-11), humanizer(기각, 10-06)는 기존 판정 유지. 가져올 생각: 설치 전에 스킬 파일 머리말과 훅 설정을 직접 연다. "채택할 때" 절차에 이미 있다 |
+| [marketingskills](https://github.com/coreyhaines31/marketingskills) (MIT) | 기각 | 마케팅 스킬 모음이라 쓸 곳이 없다. README에 유료 제휴 도구 연동이 섞여 있다(1, 6) |
+| Anthropic 공식 스킬 `pptx`, `skill-creator` ([anthropics/skills](https://github.com/anthropics/skills), 폴더별 Apache-2.0) | 필요할 때만(설치 없음) | Claude Code 세션에 이미 들어 있다. `pptx`는 발표 준비 후보(10-27)와 같은 자리, `skill-creator`는 반복 작업을 스킬로 만들 때 |
+| "7명의 AI 직원에게 이력서 검토"("댓글 남기면 DM") | 기각 | 프롬프트 원문이 없다(5). "지적마다 원문 인용, 없으면 확인 필요로 비운다"는 이미 "확인 못 하면 미확인"으로 한다(6) |
+| "클로드 8가지 기능"("댓글 남기면 DM") | 확인만 | 정리본은 미확인이다(5). Pro와 Team 표준 좌석이 11-16 23:59(태평양 시간)까지 주간 한도 안에서 Fable 5.2를 쓸 수 있다는 것은 [공식 도움말](https://support.claude.com/en/articles/17506494)로 확인했다. 그 뒤 과금 방식은 요약 기사로만 봤으므로 11-17 이후 모델 설정을 사람이 확인한다(1) |
+| [stack-diagram](https://github.com/caru-ini/stack-diagram) (MIT) | 아이디어만(발표 구조도 후보) | 스크랩 설명은 README와 맞다. 훅은 없고, Python 3.9 이상과 로고를 받을 네트워크, PNG에는 Playwright가 필요하다. 그린 뒤 공개 갤러리 게시를 한 번 제안하므로 쓰게 되면 거절한다(공개 금지 항목). 평소 그림은 mermaid로 충분하다(6) |
+| [cjk-token-reducer](https://github.com/jserv/cjk-token-reducer) (MIT) | 기각 | 프롬프트 문장을 비공식 무료 Google 번역 API로 보낸다. README도 번역 손실과 호출당 지연을 적는다(2, 7) |
+| [pxpipe](https://github.com/teamchong/pxpipe) (MIT) | 기각 | 요청을 가로채 이미지로 바꾸는 로컬 프록시다. 2만 5천 → 2천 7백 토큰은 README와 맞지만, README 스스로 Opus, Sonnet, Haiku 5.5는 조밀한 이미지 읽기가 0~3/15로 떨어진다고 적는다(2, 7) |
+| [claude-token-efficient](https://github.com/drona23/claude-token-efficient) (MIT) | 기각 | CLAUDE.md 한 장. ponytail, 간결 출력과 겹친다. README도 출력이 적은 작업에서는 오히려 토큰이 는다고 적는다(6). caveman 기각(10-15)과 같은 이유 |
+| "REA, Diagram Design, Matt Pocock Skills" | 기존 판정 유지 | REA 기각(10-15), diagram-design 아이디어만(10-26), mattpocock/skills 아이디어만(10-13) |
+| "클로드 디자인 스킬 모음" 5종 | 기존 판정 유지 | ui-ux-pro-max 기각(10-20), taste-skill 2종 채택(10-11), Impeccable 기각(10-06), HyperFrames 필요할 때만(10-06), diagram-design 아이디어만(10-26) |
+| find-skills("찾기 댓글") | 기존 판정 유지(기각, 10-26) | 허용 목록 밖 스킬을 끌어온다(6). 설치 수는 미확인 |
+| "Superpowers, frontend-design, skill-creator" | 기존 판정 유지 | superpowers 아이디어만(10-26), frontend-design 채택(09-26). skill-creator는 위 행 |
+| "깃허브 레포 10개" | 구성 도구를 각각 판정 | Humanizer, Hallmark, Taste Skill, UI/UX Pro Max, Impeccable, Diagram Design, Ponytail(사용 중), REA는 기존 판정 유지 |
+| [Scrapling](https://github.com/D4Vinci/Scrapling) (BSD-3-Clause) | 기각 | 스텔스 브라우저와 Cloudflare Turnstile 처리를 내세운다. 봇 차단 우회는 약관 위반으로 이어진다(7). Camofox 기각(10-30)과 같은 이유. 공개 페이지 일회성 정리는 Crawl4AI(10-30) |
+| [last30days-skill](https://github.com/mvanhorn/last30days-skill) (MIT) | 기각 | 여러 SNS를 한꺼번에 수집한다. 첫 실행 때 CLI를 여럿 설치하고 일부 원천은 유료 키가 필요하다(1, 2, 6) |
+| Awesome Opus 5.5 Videos, VibePrompt, Motionin | 기각 | 영상 프롬프트 모음은 [yihui-dev/awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)(MIT)로 추정하지만 703개는 미확인이고 쓸 곳이 없다(6). VibePrompt, Motionin은 맞는 레포를 찾지 못했다(5) |
+| [Message threads](https://platform.claude.com/docs/en/build-with-claude/message-threads) (Messages API 공개 베타) | 확인만 | `thread` 파라미터, 50만~100만 토큰 요청에서 첫 응답까지 약 35% 단축, 토큰 사용량은 그대로라는 설명은 공식 글과 맞다. 5분 뒤 사라진다는 것은 공식 문서로 확인하지 못했다. Claude Code에는 이미 적용돼 할 일이 없다. API를 직접 부르는 LLM 앱을 만들 때 다시 본다 |
+| [Cognitive Surrender](https://addyosmani.com/blog/cognitive-surrender/) (Addy Osmani, 05-05) | 아이디어만(이미 충족) | 정리본은 "댓글 남기면 DM"이다(5). 인용 문장은 검색으로 확인하지 못했다. 86점과 39점은 [Anthropic 연구](https://www.anthropic.com/research/AI-assistance-coding-skills) 차트의 "생성 뒤 이해" 유형과 "통째로 위임" 유형이고, 유형별 인원이 4~7명이라 방향만 본다. "책임질 수 있는 만큼만 만든다"는 "검증됨만 완료"와 리뷰 규칙으로 이미 한다(6) |
+| "Ponytail, Graphify, OmniRoute" | 기존 판정 유지 | ponytail 사용 중(10-26), Graphify 기각(10-27), OmniRoute 기각(10-26) |
+| "ChatGPT, Claude, Gemini, Grok 잘 쓰는 법" 등급표(이미지) | 기각 | 출처가 없는 요청 문구 목록이다(5). 프롬프트 양식(Goal, Context, Constraints, Done-when)과 겹치고, "약점 3가지", "비판적으로 재검토"는 10-26 "공격적 질문" 판정대로 프롬프트보다 실제 검증으로 한다(6) |
+| [Basic Memory](https://github.com/basicmachines-co/basic-memory) (AGPL-3.0) | 기각 | MCP 서버로 붙고 클라우드판은 월 구독이다. 내장 메모리와 겹친다(1, 3, 4, 6) |
+| [SilverBullet](https://github.com/silverbulletmd/silverbullet) (MIT), [Docmost](https://github.com/docmost/docmost) (AGPL-3.0) | 기각 | 둘 다 서버를 직접 띄워야 한다. Docmost는 일부 폴더가 엔터프라이즈 라이선스다(2, 4, 6) |
+| Gemini Decision 1 API | 기각 | 검색으로 원문을 확인하지 못했다(미확인). 스크랩대로라도 종량 과금 API다(1) |
+| Atuin Threads ([atuin](https://github.com/atuinsh/atuin), MIT) | 기각 | 셸 기록과 에이전트 세션을 모아 기기 사이에 동기화한다. Claude Code 하나만 써서 이어받을 대상이 없고, 세션 기록을 밖으로 보낼 이유가 없다(2, 6) |
+| [shadcn/improve](https://github.com/shadcn/improve) (MIT) | 아이디어만 | 아홉 범주로 서브에이전트를 병렬로 띄운다(3). `/ponytail-audit`, `/code-review`와 겹친다(6). 가져올 생각: 계획서에 레포의 실제 검사 명령과 멈출 조건을 적는다 |
+| [Codex Security](https://github.com/openai/codex-security) (Apache-2.0) | 기각 | OpenAI 등 모델 키가 필요하다(1). 내장 `/security-review`와 겹친다(6) |
+| Fireworks AI 침해(Notion 공급업체) | 사람이 확인 | 위 [보안 소식](#보안-소식-확인만)에 적었다 |
+| [AWS Emulator](https://github.com/aws/aws-emulator) (CC0-1.0, `vendor/`는 Apache-2.0) | 기각(스택에 없음) | AWS를 쓰지 않는다(6). README도 운영과 보안 테스트에는 쓰지 말라고 적는다. AWS를 쓰는 프로젝트가 생기면 다시 본다 |
+| [elephant-goldfish-model](https://github.com/google/elephant-goldfish-model) (Apache-2.0) | 아이디어만 | google 조직 레포이고 설치 명령 두 줄은 README와 맞다. 검토자 서브에이전트 정의가 8개 이상이고 단계마다 문서를 만든다(3). 가져올 생각: 설계 문서는 대화를 모르는 새 세션에 문서만 주고 검토시킨다 |
+| [Herdr](https://github.com/herdrdev/herdr) (Apache-2.0) | 기각 | 터미널을 붙잡는 백그라운드 서버 위에서 에이전트가 다른 에이전트를 띄우고 서로 지시한다. 여러 모델을 같이 쓰는 전제다(1, 2, 3). 10-26 병렬 에이전트 기각과 같은 이유 |
+| "공식 마켓플레이스 플러그인 1~5위"("댓글 남기면 TOP 20") | 기존 판정 유지 | frontend-design, code-review, code-simplifier 플러그인 기각(10-26), superpowers 아이디어만(10-26), context7 기각(10-26). 설치 수는 미확인 |
+| "주말 클로드 마스터 5단계"("댓글 달고 가이드") | 기각 | 실체가 없다(5). 프로젝트, 커넥터, 스킬을 쓰라는 일반론이다 |
+| "클로드 비밀 코드 5개" 팩트체크 | 확인만(기존 판정 유지, 10-11) | `ultrathink`가 그 턴만 더 깊이 추론하게 하고 "think hard" 같은 다른 문구는 일반 문장으로 읽힌다는 것은 [공식 문서](https://code.claude.com/docs/en/model-config)와 맞다. 나머지 네 개는 직접 입력해 보지 않았다. 생각 강도 문구는 지시문에 넣지 않는다 |
