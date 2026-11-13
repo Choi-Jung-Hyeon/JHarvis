@@ -202,6 +202,7 @@
 | Tailworm(Tailscale SSH 결함) | 확인만: 스택에 없음. 개인 PC에서 쓴다면 SSH 규칙을 기기 쌍 단위로 좁힌다 | 10-27 |
 | OpenSSH 비밀번호 인증 우회(Alpine, musl, PAM 없는 sshd, 10.6p2에서 수정) | 확인만: 개발 PC는 Ubuntu(glibc)이고 sshd가 꺼져 있다. 레포에 Alpine 이미지가 없다. Alpine 컨테이너에서 sshd를 켜게 되면 `PasswordAuthentication no` | 11-06 |
 | Fireworks AI 침해([Notion 안내](https://notion.com/help/security-incident-involving-a-third-party-ai-vendor)) | **사람이 확인**: Notion을 쓴다. Notion 안내로는 워크스페이스 1% 미만, Notion AI 대화 일부가 대상이고 해당 워크스페이스 소유자에게 연락했다. 연락이나 사이드바의 "Security incident review" 페이지가 없으면 대상이 아니다. Notion AI 대화에 비밀번호나 키를 넣은 적이 있으면 교체한다. 레포 코드와 의존성에는 Fireworks가 없다 | 11-13 |
+| Fireworks AI 침해(위 행에 덧붙임) | 해당 없음: 사람이 확인했다. Notion AI 대화를 쓴 적이 없다 | 11-13 |
 
 ## 스크랩 판정 기록
 
@@ -304,3 +305,5 @@ Astryx는 GitHub API와 README, LICENSE, `packages/core/package.json` 원문으�
 | "공식 마켓플레이스 플러그인 1~5위"("댓글 남기면 TOP 20") | 기존 판정 유지 | frontend-design, code-review, code-simplifier 플러그인 기각(10-26), superpowers 아이디어만(10-26), context7 기각(10-26). 설치 수는 미확인 |
 | "주말 클로드 마스터 5단계"("댓글 달고 가이드") | 기각 | 실체가 없다(5). 프로젝트, 커넥터, 스킬을 쓰라는 일반론이다 |
 | "클로드 비밀 코드 5개" 팩트체크 | 확인만(기존 판정 유지, 10-11) | `ultrathink`가 그 턴만 더 깊이 추론하게 하고 "think hard" 같은 다른 문구는 일반 문장으로 읽힌다는 것은 [공식 문서](https://code.claude.com/docs/en/model-config)와 맞다. 나머지 네 개는 직접 입력해 보지 않았다. 생각 강도 문구는 지시문에 넣지 않는다 |
+| elephant-goldfish-model(위 행에 덧붙임, 같은 날) | **규칙 채택**(플러그인은 설치하지 않음) | 검토자 서브에이전트 여럿을 새 세션 하나로 줄여 [01-ai-collab.md](../principles/01-ai-collab.md) "리뷰"에 한 줄로 넣었다. 대상은 되돌리기 힘든 설계 문서와 인수인계 문서뿐이다. 효과는 실측하지 않았다 |
+| Fireworks AI 침해(위 행에 덧붙임, 같은 날) | 해당 없음 | 사람이 확인했다. Notion AI 대화를 쓴 적이 없다 |
