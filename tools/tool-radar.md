@@ -64,6 +64,7 @@
 | 회의 녹음 요약 서비스 | 문서·발표 | 발표, 회의 녹음을 "아이디어 회의" 형식으로 요약해 링크 공유. 개인 선택 | 06-20, PB |
 | 다중 호출 투표 하네스(자작) | LLM 앱 | LLM 판정 흔들림 관측용. 호출 수가 3배라 표본에만, 공식 지표에 섞지 않음 | 08-06, PB |
 | `skill-creator`(Anthropic 공식 스킬, Apache-2.0) | 공통 | 같은 설명을 세 번째 반복하게 된 작업을 스킬로 만들 때. Claude Code 세션에 이미 들어 있어 설치하지 않는다 | 11-13 |
+| [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) (Apache-2.0) | 웹 화면 | 브라우저 호환이 걱정되는 기능을 쓸 때 `npx -y modern-web-guidance@1.0.0 search "<할 일>"`로 안내서만 찾아 읽는다. `install`은 자동 갱신이라 SHA 고정 규칙과 맞지 않아 쓰지 않는다 | 11-14 |
 
 ## 아이디어만 (설치하지 않음)
 
@@ -307,3 +308,16 @@ Astryx는 GitHub API와 README, LICENSE, `packages/core/package.json` 원문으�
 | "클로드 비밀 코드 5개" 팩트체크 | 확인만(기존 판정 유지, 10-11) | `ultrathink`가 그 턴만 더 깊이 추론하게 하고 "think hard" 같은 다른 문구는 일반 문장으로 읽힌다는 것은 [공식 문서](https://code.claude.com/docs/en/model-config)와 맞다. 나머지 네 개는 직접 입력해 보지 않았다. 생각 강도 문구는 지시문에 넣지 않는다 |
 | elephant-goldfish-model(위 행에 덧붙임, 같은 날) | **규칙 채택**(플러그인은 설치하지 않음) | 검토자 서브에이전트 여럿을 새 세션 하나로 줄여 [01-ai-collab.md](../principles/01-ai-collab.md) "리뷰"에 한 줄로 넣었다. 대상은 되돌리기 힘든 설계 문서와 인수인계 문서뿐이다. 효과는 실측하지 않았다 |
 | Fireworks AI 침해(위 행에 덧붙임, 같은 날) | 해당 없음 | 사람이 확인했다. Notion AI 대화를 쓴 적이 없다 |
+
+### 2026-11-14
+
+스크랩 6건입니다. Modern Web Guidance는 GitHub API(라이선스, 릴리스)로, Fable 5.2 수치는 [공식 문서 원문](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2)으로 확인했습니다. 나머지는 웹 검색 요약만 봤습니다. 아무것도 설치하거나 실행해 보지 않았습니다.
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) 1.0 (Apache-2.0) | 필요할 때만(웹 화면) | GoogleChrome 조직 레포이고 v1.0.0은 11-10에 나왔다. 설치 명령은 공식 안내와 맞다. note 사례 61% → 94%는 미확인이고, 구글 자체 측정(37%p 향상)도 독립 검증이 없다. `install`은 스킬을 자동 갱신하므로 고정 SHA 복사 규칙과 맞지 않는다(6). 위 "필요할 때만" 표에 검색 명령으로 넣었다 |
+| "AI 도구 다 쓸 필요 없어요"(Claude Code, Aside, Orca, 헤르메스, "댓글 남기면 판정표") | 기각 / 기존 판정 유지 | 판정표는 미끼다(5). Aside는 로그인된 사이트를 AI가 대신 조작하는 별도 브라우저다. 계정 권한을 맡기고 가격, 지원 OS가 출처마다 다르다(1, 7). Orca(기각, 10-26), Hermes Agent(기각)는 기존 판정 유지 |
+| "Prompting Claude Fable 5.2"("댓글 남기면 프롬프트") | 아이디어만 | 세 수치는 공식 문서와 맞다. 다만 "주인" 문장의 75%는 "중복 코드를 하나로 합친 비율"이고, 문서는 사용자가 변경을 최소로 원할 때 이 문장을 빼라고 적는다. 범위 제한 규칙이 있어도 절반 넘게 합쳤다. "끝까지 해"는 미완료 종료를 절반으로 줄였지만 출력 토큰이 약 30% 늘었고, "시작 전 한 줄"은 모든 실행에서 첫 메시지를 냈지만 토큰이 약 20% 늘었다(3). 우리는 Opus 5.5를 쓰고, ponytail의 최소 변경과 정면으로 부딪히므로 지시문에 넣지 않는다(6). Fable을 쓰게 되면 다시 본다 |
+| 모델 고르는 가이드(Haiku, Sonnet, Opus 5.5, Fable 5.2) | 확인만(기존 설정 유지) | Addy Osmani 글은 찾지 못했고, SWE-bench Pro 97%, 0.17달러, 95.3%, 0.29달러는 미확인이다(5). 스크랩도 앤트로픽 자체 측정이라 적는다. "Opus 5.5 medium에서 시작"은 [01-ai-collab.md](../principles/01-ai-collab.md) 설정과 이미 같다(6). 공식 Claude Code 모델, 노력 글(07-07)도 파일을 건너뛰거나 리팩터를 중간에 버릴 때 노력을 올리라고 적는다 |
+| "클로드 코드 고수 세팅 셋"(ECC, gstack, Matt Pocock, "댓글 남기면 명령") | 기존 판정 유지 | ECC 기각(10-26), gstack 기각(10-27), mattpocock/skills 아이디어만(10-13). 별 수는 근거로 쓰지 않는다 |
+| "CLAUDE.md의 「절대」「중요」를 규칙과 훅으로"("댓글 남기면 DM") | 확인만(이미 충족) | 정리본은 미끼다(5). 꼭 막아야 하는 것은 훅(`guard.py protect`)과 deny로 이미 한다(6) |
