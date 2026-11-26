@@ -342,3 +342,13 @@ Astryx는 GitHub API와 README, LICENSE, `packages/core/package.json` 원문으�
 |---|---|---|
 | [ECC](https://github.com/affaan-m/ECC)(Everything Claude Code, MIT) | 기존 판정 유지(기각, 10-26) | 레포 이름이 ECC로 바뀌었고 최신 릴리스는 v2.2.3(10-01)이다. 스킬, 에이전트, 훅, 메모리, 보안을 한꺼번에 얹는 하네스라 10-26 기각 이유(2, 3)가 그대로다. "해커톤 우승자"는 미확인이다. 별 수는 근거로 쓰지 않는다 |
 | 댓글: 스킬을 누가 고치고 승인했는지, 어디부터 적용할지 관리 | 확인만(이미 충족) | 스킬 원본은 SHA로 고정하고 메모는 [claude/skills/README.md](../claude/skills/README.md)에 두며, 바꾸면 PR과 CI를 거친다. 판정 변경도 날짜와 함께 덧붙인다(6) |
+
+### 2026-11-26
+
+스크랩 3건입니다. 두 레포는 GitHub API(README, 라이선스, 릴리스)로, 차트 기능은 [Claude Code 변경 기록](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)과 이 환경의 `claude --version`(2.1.332)으로 확인했습니다. 아무것도 설치하거나 실행해 보지 않았습니다.
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| [modern-web-guidance-src](https://github.com/GoogleChrome/modern-web-guidance-src) (Apache-2.0) | 기존 판정 유지(필요할 때만, 11-14) | 11-14에 본 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)의 작성, 평가용 원본 레포다. 배포본은 그대로이고 README도 `npx`로 `search`, `retrieve`를 먼저 써 보라고 적는다. `install`은 계속 쓰지 않는다(6) |
+| Claude Code 차트 그리기(easel) | 사용 중(내장, 2.1.330부터) | 요청하면 차트를 그리고 MCP 지표 결과 밑에도 자동으로 붙는 내장 mod다. Pro, Max에서 macOS, Linux만 되고 자동 차트는 `/config`에서 끈다. 설치할 것이 없다(6). 이 세션 도구 목록에서는 보이지 않아 실제로 그려 보지는 않았다. 기본 탑재 dataviz 스킬과 겹치는지도 확인하지 않았다 |
+| [Nod](https://github.com/n8n-io/nod) (n8n, Apache-2.0) | 기각 | 연구용 미리보기(v0.9.7, 11-25)다. ChatGPT 유료 구독이나 API 키가 있어야 한다(1). 자기 컴퓨터와 브라우저를 갖고 Gmail, 일정, Slack, Notion, 실제 웹사이트에 로그인해 일한다. 메모리도 따로 쌓는다(2, 7). "행동 전에 묻는다"는 승인 단계가 있다는 뜻일 뿐 권한 범위가 줄지는 않는다. 10-26 n8n 기각과 이어진다 |
