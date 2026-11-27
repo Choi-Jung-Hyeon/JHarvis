@@ -204,6 +204,7 @@
 | OpenSSH 비밀번호 인증 우회(Alpine, musl, PAM 없는 sshd, 10.6p2에서 수정) | 확인만: 개발 PC는 Ubuntu(glibc)이고 sshd가 꺼져 있다. 레포에 Alpine 이미지가 없다. Alpine 컨테이너에서 sshd를 켜게 되면 `PasswordAuthentication no` | 11-06 |
 | Fireworks AI 침해([Notion 안내](https://notion.com/help/security-incident-involving-a-third-party-ai-vendor)) | **사람이 확인**: Notion을 쓴다. Notion 안내로는 워크스페이스 1% 미만, Notion AI 대화 일부가 대상이고 해당 워크스페이스 소유자에게 연락했다. 연락이나 사이드바의 "Security incident review" 페이지가 없으면 대상이 아니다. Notion AI 대화에 비밀번호나 키를 넣은 적이 있으면 교체한다. 레포 코드와 의존성에는 Fireworks가 없다 | 11-13 |
 | Fireworks AI 침해(위 행에 덧붙임) | 해당 없음: 사람이 확인했다. Notion AI 대화를 쓴 적이 없다 | 11-13 |
+| NFS2ROOT(Linux NFSv4.1 서버 힙 오버플로, 원격 루트) | 확인만: 개발 PC(WSL2)에 `nfs-kernel-server`가 설치되지 않았고 2049 포트가 열려 있지 않다. 레포에도 NFS 설정이 없다. CVE 번호와 점수는 원문을 열지 않아 미확인이다. NFS 서버를 띄우게 되면 커널 패치를 확인한다 | 11-27 |
 
 ## 스크랩 판정 기록
 
@@ -352,3 +353,16 @@ Astryx는 GitHub API와 README, LICENSE, `packages/core/package.json` 원문으�
 | [modern-web-guidance-src](https://github.com/GoogleChrome/modern-web-guidance-src) (Apache-2.0) | 기존 판정 유지(필요할 때만, 11-14) | 11-14에 본 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance)의 작성, 평가용 원본 레포다. 배포본은 그대로이고 README도 `npx`로 `search`, `retrieve`를 먼저 써 보라고 적는다. `install`은 계속 쓰지 않는다(6) |
 | Claude Code 차트 그리기(easel) | 사용 중(내장, 2.1.330부터) | 요청하면 차트를 그리고 MCP 지표 결과 밑에도 자동으로 붙는 내장 mod다. Pro, Max에서 macOS, Linux만 되고 자동 차트는 `/config`에서 끈다. 설치할 것이 없다(6). 이 세션 도구 목록에서는 보이지 않아 실제로 그려 보지는 않았다. 기본 탑재 dataviz 스킬과 겹치는지도 확인하지 않았다 |
 | [Nod](https://github.com/n8n-io/nod) (n8n, Apache-2.0) | 기각 | 연구용 미리보기(v0.9.7, 11-25)다. ChatGPT 유료 구독이나 API 키가 있어야 한다(1). 자기 컴퓨터와 브라우저를 갖고 Gmail, 일정, Slack, Notion, 실제 웹사이트에 로그인해 일한다. 메모리도 따로 쌓는다(2, 7). "행동 전에 묻는다"는 승인 단계가 있다는 뜻일 뿐 권한 범위가 줄지는 않는다. 10-26 n8n 기각과 이어진다 |
+
+### 2026-11-27
+
+스크랩 6건입니다. 두 레포는 GitHub API(README, 라이선스, 릴리스)로, NFS는 이 PC의 패키지와 열린 포트로 확인했습니다. 나머지는 글 내용만 봤습니다. 아무것도 설치하거나 실행해 보지 않았습니다.
+
+| 스크랩 | 판정 | 이유(기준 번호) |
+|---|---|---|
+| GPT-6.2 사용량 계산 수정 | 해당 없음 | OpenAI 플랜을 쓰지 않는다(1). 수치(Astra 40%, Sol 25%)는 미확인이다 |
+| [OpenSRE](https://github.com/Tracer-Cloud/opensre) (Apache-2.0) | 기각 | 공개 알파(v0.1.2026.11.27)다. LLM 공급자 키가 필요하고(1), 설치 스크립트가 `main` 최신 빌드를 받으며 게이트웨이를 서버나 컨테이너로 띄운다(2). CI 실패는 `gh pr checks`로 보고 Claude Code가 고친다(6) |
+| Moat(OpenRouter 대체 멤버십) | 기각 | 멤버십 월 5~10달러에 모델 사용료가 따로 든다(1). OpenRouter도 쓰지 않는다 |
+| llama.cpp AMD 패치 | 기각(스택에 없음) | AMD GPU가 없고 로컬 모델은 폐쇄망 과제에서 Ollama로만 쓴다(6). 수치는 한 기기 측정이라 미확인이다 |
+| [AutoClip](https://github.com/zhouxiaoka/autoclip) (MIT) | 기각(용도 없음) | 영상 편집 프로젝트가 없다(6). 클라우드 모델 키나 로컬 모델, FFmpeg가 필요하고(1, 2) MCP로 붙는다(3). 데스크톱 빌드는 서명되지 않았다. 영상 과제가 생기면 다시 본다 |
+| NFS2ROOT | 확인만 | 위 [보안 소식](#보안-소식-확인만)에 적었다 |
